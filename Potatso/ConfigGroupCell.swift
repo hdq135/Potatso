@@ -32,7 +32,7 @@ class ConfigGroupCell: UITableViewCell {
         ruleSetsHintLabel.text = "Rule Set".localized()
         let desc = group.ruleSets.map { (set) -> String in
             return set.name
-        }.joinWithSeparator(", ")
+        }.joined(separator: ", ")
         ruleSetsLabel.text = group.ruleSets.count > 0 ? "\(desc)" : "None".localized()
         leftColorHintView.backgroundColor = hintColor
         statusLabel.isHidden = true

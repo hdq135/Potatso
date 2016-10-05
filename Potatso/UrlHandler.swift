@@ -69,7 +69,7 @@ enum URLAction: String {
     func perform(_ url: URL?, parameters: Parameters, completion: ((Error?) -> Void)? = nil) -> Bool {
         switch self {
         case .ON:
-            Manager.sharedManager.startVPN({ (manager, error) in
+            Manager.sharedManager.startVPN(complete: { (manager, error) in
                 if error == nil {
                     self.autoClose(parameters)
                 }
@@ -80,7 +80,7 @@ enum URLAction: String {
             autoClose(parameters)
             completion?(nil)
         case .SWITCH:
-            Manager.sharedManager.switchVPN({ (manager, error) in
+            Manager.sharedManager.switchVPN(completion: { (manager, error) in
                 if error == nil {
                     self.autoClose(parameters)
                 }

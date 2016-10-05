@@ -37,7 +37,7 @@ class AppInitializer: NSObject, AppLifeCycleProtocol {
         DDLog.add(fileLogger)
 
         let logglyLogger = LogglyLogger() // Loggy Logger
-        logglyLogger.logglyKey = LOGGLY_KEY
+        logglyLogger.logglyKey = LOGGY_KEY
         let fields = LogglyFields()
         fields.userid = User.currentUser.id
         fields.appversion = AppEnv.fullVersion
@@ -47,18 +47,18 @@ class AppInitializer: NSObject, AppLifeCycleProtocol {
         DDLog.add(logglyLogger)
 
         #if DEBUG
-            DDLog.addLogger(DDTTYLogger.sharedInstance()) // TTY = Xcode console
-            DDLog.addLogger(DDASLLogger.sharedInstance()) // ASL = Apple System Logs
-            DDLog.setLevel(DDLogLevel.All, forClass: DDTTYLogger.self)
-            DDLog.setLevel(DDLogLevel.All, forClass: DDASLLogger.self)
+            DDLog.add(DDTTYLogger.sharedInstance()) // TTY = Xcode console
+            DDLog.add(DDASLLogger.sharedInstance()) // ASL = Apple System Logs
+            DDLog.setLevel(DDLogLevel.all, for: DDTTYLogger.self)
+            DDLog.setLevel(DDLogLevel.all, for: DDASLLogger.self)
         #else
 
         #endif
     }
 
     func configHelpShift() {
-        HelpshiftCore.initializeWithProvider(HelpshiftAll.sharedInstance())
-        HelpshiftCore.installForApiKey(HELPSHIFT_KEY, domainName: HELPSHIFT_DOMAIN, appID: HELPSHIFT_ID)
+        HelpshiftCore.initialize(with: HelpshiftAll.sharedInstance())
+        HelpshiftCore.install(forApiKey: HELPSHIFT_KEY, domainName: HELPSHIFT_DOMAIN, appID: HELPSHIFT_ID)
     }
     
 }

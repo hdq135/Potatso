@@ -71,11 +71,11 @@ open class SyncManager {
     }
 
     func showSyncVC(inVC vc:UIViewController? = nil) {
-        guard let currentVC = vc ?? UIApplication.sharedApplication().keyWindow?.rootViewController else {
+        guard let currentVC = vc ?? UIApplication.shared.keyWindow?.rootViewController else {
             return
         }
         let syncVC = SyncVC()
-        currentVC.showViewController(syncVC, sender: self)
+        currentVC.show(syncVC, sender: self)
     }
 
 }

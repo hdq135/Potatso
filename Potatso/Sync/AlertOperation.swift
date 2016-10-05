@@ -10,7 +10,7 @@ import UIKit
 import PSOperations
 import CloudKit
 
-open class AlertOperation: Operation {
+open class AlertOperation: PSOperations.Operation {
     // MARK: Properties
     
     fileprivate let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .alert)

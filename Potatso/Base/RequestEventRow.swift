@@ -11,7 +11,7 @@ import PotatsoModel
 import Eureka
 import Cartography
 
-class RequestEventRow: Row<RequestEvent, RequestEventRowCell>, RowType {
+class RequestEventRow: Eureka.Row<RequestEventRowCell>, RowType {
 
     required init(tag: String?) {
         super.init(tag: tag)
@@ -45,8 +45,8 @@ class RequestEventRowCell: Cell<RequestEvent>, CellType {
         super.setup()
         selectionStyle = .none
         preservesSuperviewLayoutMargins = false
-        layoutMargins = UIEdgeInsetsZero
-        separatorInset = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsets.zero
+        separatorInset = UIEdgeInsets.zero
         contentView.addSubview(titleLabel)
         contentView.addSubview(contentLabel)
         contentView.addSubview(timeLabel)
@@ -69,7 +69,7 @@ class RequestEventRowCell: Cell<RequestEvent>, CellType {
             return
         }
         titleLabel.text = event.stage.description
-        timeLabel.text = RequestEventRowCell.dateformatter.stringFromDate(Date(timeIntervalSince1970: event.timestamp))
+        timeLabel.text = RequestEventRowCell.dateformatter.string(from: Date(timeIntervalSince1970: event.timestamp))
         contentLabel.text = event.contentDescription
     }
 

@@ -14,7 +14,7 @@ import Async
 
 class ICloudSyncService: SyncServiceProtocol {
 
-    let operationQueue = OperationQueue()
+    let operationQueue = PSOperations.OperationQueue()
 
     init() {
 

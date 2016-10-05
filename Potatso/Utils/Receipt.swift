@@ -54,7 +54,7 @@ class Receipt: NSObject, SKRequestDelegate {
             NSLog("isStoreReceiptValidate can't find appStoreReceiptURL")
             return false
         }
-        return ReceiptUtils.verifyReceiptAtPath(receiptPath)
+        return ReceiptUtils.verifyReceipt(atPath: receiptPath)
     }
 
     fileprivate func requestNewReceipt() {
@@ -64,8 +64,8 @@ class Receipt: NSObject, SKRequestDelegate {
     }
 
     fileprivate func validateReceipt(_ path: String, tryAgain: Bool) {
-        let valid = ReceiptUtils.verifyReceiptAtPath(path)
-        logEvent(.ReceiptValidationResult, attributes: ["valid": valid ? "true" : "false"])
+        let valid = ReceiptUtils.verifyReceipt(atPath: path)
+        logEvent(.ReceiptValidationResult, attributes: ["valid": valid ? "true" : "false" as AnyObject])
         if !valid {
             if tryAgain {
                 requestNewReceipt()

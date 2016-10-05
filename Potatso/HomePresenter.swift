@@ -28,7 +28,7 @@ class HomePresenter: NSObject {
 
     override init() {
         super.init()
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(onVPNStatusChanged), name: kProxyServiceVPNStatusNotification, object: nil)
+        NotificationCenter.defaultCenter.addObserver(self, selector: #selector(onVPNStatusChanged), name: NSNotification.Name(rawValue: NSNotification.Name(rawValue: kProxyServiceVPNStatusNotification)), object: nil)
         CurrentGroupManager.shared.onChange = { group in
             self.delegate?.handleRefreshUI()
         }
@@ -70,12 +70,12 @@ class HomePresenter: NSObject {
 
     func showAddConfigGroup() {
         var urlTextField: UITextField?
-        let alert = UIAlertController(title: "Add Config Group".localized(), message: nil, preferredStyle: .Alert)
-        alert.addTextFieldWithConfigurationHandler { (textField) in
+        let alert = UIAlertController(title: "Add Config Group".localized(), message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField) in
             textField.placeholder = "Name".localized()
             urlTextField = textField
         }
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: { (action) in
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { (action) in
             if let input = urlTextField?.text {
                 do {
                     try self.addEmptyConfigGroup(input)
@@ -84,8 +84,8 @@ class HomePresenter: NSObject {
                 }
             }
         }))
-        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .Cancel, handler: nil))
-        vc.presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
+        vc.present(alert, animated: true, completion: nil)
     }
 
     func addEmptyConfigGroup(_ name: String) throws {
@@ -156,12 +156,12 @@ class HomePresenter: NSObject {
 
     func changeGroupName() {
         var urlTextField: UITextField?
-        let alert = UIAlertController(title: "Change Name".localized(), message: nil, preferredStyle: .Alert)
-        alert.addTextFieldWithConfigurationHandler { (textField) in
+        let alert = UIAlertController(title: "Change Name".localized(), message: nil, preferredStyle: .alert)
+        alert.addTextField { (textField) in
             textField.placeholder = "Input New Name".localized()
             urlTextField = textField
         }
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: { [unowned self] (action) in
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { [unowned self] (action) in
             if let newName = urlTextField?.text {
                 do {
                     try ConfigurationGroup.changeName(forGroupId: self.group.uuid, name: newName)
@@ -171,8 +171,8 @@ class HomePresenter: NSObject {
                 self.delegate?.handleRefreshUI()
             }
         }))
-        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .Cancel, handler: nil))
-        vc.presentViewController(alert, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
+        vc.present(alert, animated: true, completion: nil)
     }
 
 }

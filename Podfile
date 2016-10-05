@@ -40,8 +40,7 @@ target "Potatso" do
     pod 'ICDMaterialActivityIndicatorView', '~> 0.1.0'
     pod 'Reveal-iOS-SDK', '~> 1.6.2', :configurations => ['Debug']
     pod 'ICSPullToRefresh', '~> 0.4'
-    pod 'ISO8601DateFormatter', '~> 0.8'
-    pod 'Alamofire'
+    pod 'Alamofire', '~> 4.0'
     pod 'ObjectMapper'
     pod 'CocoaLumberjack/Swift', '~> 2.0'
     pod 'Helpshift', '5.6.1'

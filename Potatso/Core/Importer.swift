@@ -37,15 +37,15 @@ struct Importer {
     
     func importConfigFromQRCode() {
         let vc = QRCodeScannerVC()
-        vc.resultBlock = { [weak vc] result in
-            vc?.navigationController?.popViewControllerAnimated(true)
-            self.onImportInput(result)
+        vc?.resultBlock = { [weak vc] result in
+            vc?.navigationController?.popViewController(animated: true)
+            self.onImportInput(result!)
         }
-        vc.errorBlock = { [weak vc] error in
-            vc?.navigationController?.popViewControllerAnimated(true)
+        vc?.errorBlock = { [weak vc] error in
+            vc?.navigationController?.popViewController(animated: true)
             self.viewController?.showTextHUD("\(error)", dismissAfterDelay: 1.5)
         }
-        viewController?.navigationController?.pushViewController(vc, animated: true)
+        viewController?.navigationController?.pushViewController(vc!, animated: true)
     }
     
     func onImportInput(_ result: String) {
@@ -59,7 +59,7 @@ struct Importer {
     func importSS(_ source: String) {
         do {
             let defaultName = "___scanresult"
-            let proxy = try Proxy(dictionary: ["name": defaultName, "uri": source], inRealm: defaultRealm)
+            let proxy = try Proxy(dictionary: ["name": defaultName as AnyObject, "uri": source as AnyObject], inRealm: defaultRealm)
             var urlTextField: UITextField?
             let alert = UIAlertController(title: "Add a new proxy".localized(), message: "Please set name for the new proxy".localized(), preferredStyle: .alert)
             alert.addTextField { (textField) in
@@ -70,7 +70,8 @@ struct Importer {
                 urlTextField = textField
             }
             alert.addAction(UIAlertAction(title: "OK".localized(), style: .default){ (action) in
-                guard let text = urlTextField?.text?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) else {
+                
+                guard let text = urlTextField?.text?.trimmingCharacters(in: CharacterSet.whitespaces) else {
                     self.onConfigSaveCallback(false, error: "Name can't be empty".localized())
                     return
                 }
@@ -101,7 +102,7 @@ struct Importer {
             do {
                 if isURL {
                     if let url = NSURL(string: source) {
-                        try config.setup(url: url)
+                        try config.setup(string: url as! String)
                     }
                 }else {
                     try config.setup(string: source)

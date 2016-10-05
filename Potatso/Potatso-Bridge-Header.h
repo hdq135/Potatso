@@ -16,6 +16,7 @@
 #import "HelpshiftAll.h"
 #import "HelpshiftSupport.h"
 #import "HelpshiftCore.h"
+#import "ISO8601DateFormatter.h"
 @import CocoaLumberjack;
 @import PotatsoLibrary;
 @import PotatsoModel;

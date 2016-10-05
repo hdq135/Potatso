@@ -20,7 +20,7 @@ class FeedbackManager {
         let options = [
             "gotoConversationAfterContactUs": "YES"
         ]
-        let rulesets = Manager.sharedManager.defaultConfigGroup.ruleSets.map({ $0.name }).joinWithSeparator(", ")
+        let rulesets = Manager.sharedManager.defaultConfigGroup.ruleSets.map({ $0.name }).joined(separator: ", ")
         let defaultToProxy = Manager.sharedManager.defaultConfigGroup.defaultToProxy
         var tags: [String] = []
         if AppEnv.isTestFlight {

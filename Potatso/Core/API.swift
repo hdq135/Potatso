@@ -10,13 +10,12 @@ import Foundation
 import PotatsoModel
 import Alamofire
 import ObjectMapper
-import ISO8601DateFormatter
 
 struct API {
 
 //    static let URL = "http://192.168.2.217:8000/api/"
     static let URL = "https://api.potatso.com/"
-
+    
     enum Path {
         case ruleSets
         case ruleSet(String)
@@ -35,18 +34,18 @@ struct API {
             return API.URL + path
         }
     }
-
-    static func getRuleSets(_ page: Int = 1, count: Int = 20, callback: (Alamofire.Response<[RuleSet], NSError>) -> Void) {
+    
+    static func getRuleSets(_ page: Int = 1, count: Int = 20, callback: (Response<[RuleSet], NSError>) -> Void) {
         DDLogVerbose("API.getRuleSets ===> page: \(page), count: \(count)")
         Alamofire.request(.GET, Path.RuleSets.url, parameters: ["page": page, "count": count]).responseArray(completionHandler: callback)
     }
 
-    static func getRuleSetDetail(_ uuid: String, callback: (Alamofire.Response<RuleSet, NSError>) -> Void) {
+    static func getRuleSetDetail(_ uuid: String, callback: (Response<RuleSet, NSError>) -> Void) {
         DDLogVerbose("API.getRuleSetDetail ===> uuid: \(uuid)")
         Alamofire.request(.GET, Path.RuleSet(uuid).url).responseObject(completionHandler: callback)
     }
 
-    static func updateRuleSetListDetail(_ uuids: [String], callback: (Alamofire.Response<[RuleSet], NSError>) -> Void) {
+    static func updateRuleSetListDetail(_ uuids: [String], callback: (Response<[RuleSet], NSError>) -> Void) {
         DDLogVerbose("API.updateRuleSetListDetail ===> uuids: \(uuids)")
         Alamofire.request(.POST, Path.RuleSetListDetail().url, parameters: ["uuids": uuids], encoding: .JSON).responseArray(completionHandler: callback)
     }
@@ -55,20 +54,20 @@ struct API {
 
 extension RuleSet: Mappable {
 
-    public convenience init?(_ map: Map) {
+    public convenience init?(map: Map) {
         self.init()
-        guard let rulesJSON = map.JSONDictionary["rules"] as? [AnyObject] else {
+        guard let rulesJSON = map.JSON["rules"] as? [AnyObject] else {
             return
         }
         var rules: [Rule] = []
-        if let parsedObject = Mapper<Rule>().mapArray(rulesJSON){
-            rules.appendContentsOf(parsedObject)
+        if let parsedObject = Mapper<Rule>().mapArray(JSONArray:rulesJSON as! [[String : Any]]){
+            rules.append(contentsOf: parsedObject)
         }
         self.rules = rules
     }
 
     // Mappable
-    public func mapping(_ map: Map) {
+    public func mapping(map: Map) {
         uuid      <- map["id"]
         name      <- map["name"]
         createAt  <- (map["created_at"], DateTransform())
@@ -106,43 +105,45 @@ extension RuleSet {
 
 extension Rule: Mappable {
 
-    public convenience init?(_ map: Map) {
-        guard let pattern = map.JSONDictionary["pattern"] as? String else {
+    public convenience init?(map: Map) {
+        guard let pattern = map.JSON["pattern"] as? String else {
             return nil
         }
-        guard let actionStr = map.JSONDictionary["action"] as? String, let action = RuleAction(rawValue: actionStr) else {
+        guard let actionStr = map.JSON["action"] as? String, let action = RuleAction(rawValue: actionStr) else {
             return nil
         }
-        guard let typeStr = map.JSONDictionary["type"] as? String, let type = RuleType(rawValue: typeStr) else {
+        guard let typeStr = map.JSON["type"] as? String, let type = RuleType(rawValue: typeStr) else {
             return nil
         }
         self.init(type: type, action: action, value: pattern)
     }
 
     // Mappable
-    public func mapping(_ map: Map) {
+    public func mapping(map: Map) {
     }
 }
 
-
-
-struct DateTransform: TransformType {
-
-    func transformFromJSON(_ value: AnyObject?) -> Double? {
+open class DateTransform : TransformType {
+    
+    public typealias Object = Double
+    public typealias JSON = AnyObject
+    
+    
+    public func transformFromJSON(_ value: Any?) -> Double?{
         guard let dateStr = value as? String else {
             return Date().timeIntervalSince1970
         }
-        return ISO8601DateFormatter.ISO8601DateFormatter().date(from: dateStr)?.timeIntervalSince1970
+        return ISO8601DF().date(from: dateStr)?.timeIntervalSince1970
+        
     }
-
-    func transformToJSON(_ value: Double?) -> AnyObject? {
+    
+    public func transformToJSON(_ value: Double?) -> AnyObject?{
         guard let v = value else {
             return nil
         }
         let date = Date(timeIntervalSince1970: v)
-        return ISO8601DateFormatter.ISO8601DateFormatter().string(from: date)
+        return ISO8601DF().string(from: date) as AnyObject?
     }
-
 }
 
 extension Alamofire.Request {
@@ -203,7 +204,7 @@ extension Alamofire.Request {
      - returns: The request.
      */
 
-    public func responseObject<T: Mappable>(queue: dispatch_queue_t? = nil, keyPath: String? = nil, mapToObject object: T? = nil, completionHandler: (Response<T, NSError>) -> Void) -> Self {
+    public func responseObject<T: Mappable>(queue: DispatchQueue? = nil, keyPath: String? = nil, mapToObject object: T? = nil, completionHandler: (Response<T, NSError>) -> Void) -> Self {
         return response(queue: queue, responseSerializer: Alamofire.Request.ObjectMapperSerializer(keyPath, mapToObject: object), completionHandler: completionHandler)
     }
 
@@ -258,7 +259,7 @@ extension Alamofire.Request {
 
      - returns: The request.
      */
-    public func responseArray<T: Mappable>(queue: dispatch_queue_t? = nil, keyPath: String? = nil, completionHandler: (Response<[T], NSError>) -> Void) -> Self {
+    public func responseArray<T: Mappable>(queue: DispatchQueue? = nil, keyPath: String? = nil, completionHandler: (Response<[T], NSError>) -> Void) -> Self {
         return response(queue: queue, responseSerializer: Alamofire.Request.ObjectMapperArraySerializer(keyPath), completionHandler: completionHandler)
     }
 

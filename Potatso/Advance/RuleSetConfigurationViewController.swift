@@ -15,16 +15,16 @@ private let kRuleSetFormName = "name"
 
 class RuleSetConfigurationViewController: FormViewController {
 
-    var ruleSet: RuleSet
+    var ruleSet: PotatsoModel.RuleSet
     var rules: [Rule]
     let isEdit: Bool
     var editable: Bool {
         return ruleSet.editable && !ruleSet.isSubscribe
     }
-    var callback: ((RuleSet?) -> Void)?
+    var callback: ((PotatsoModel.RuleSet?) -> Void)?
     var editSection: Section = Section()
 
-    init(ruleSet: RuleSet? = nil, callback: ((RuleSet?) -> Void)? = nil) {
+    init(ruleSet: PotatsoModel.RuleSet? = nil, callback: ((PotatsoModel.RuleSet?) -> Void)? = nil) {
         self.callback = callback
         if let ruleSet = ruleSet {
             self.ruleSet = RuleSet(value: ruleSet)
@@ -56,7 +56,7 @@ class RuleSetConfigurationViewController: FormViewController {
         if editable {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(save))
         }
-        tableView?.reloadSections(IndexSet(index: 1), with: .None)
+        tableView?.reloadSections(IndexSet(integer: 1), with: .none)
     }
 
     func generateForm() {
@@ -92,15 +92,15 @@ class RuleSetConfigurationViewController: FormViewController {
                 $0.value = rule.rowDescription.1 == nil ? "" : "\(rule.rowDescription.1!)"
                 $0.disabled = Condition(booleanLiteral: !self.editable)
             }.cellSetup({ (cell, row) -> () in
-                cell.accessoryType = .DisclosureIndicator
-                cell.selectionStyle = .Default
+                cell.accessoryType = .disclosureIndicator
+                cell.selectionStyle = .default
             }).cellUpdate({ (cell, row) -> () in
                 row.title = rule.rowDescription.0 == nil ? "" : "\(rule.rowDescription.0!)"
                 row.value = rule.rowDescription.1 == nil ? "" : "\(rule.rowDescription.1!)"
             }).onCellSelection({ [unowned self] (cell, row) -> () in
                 self.showRuleConfiguration(rule)
             }),
-            atIndex: index)
+            at: index)
     }
     
     func showRuleConfiguration(_ rule: Rule?) {
@@ -117,7 +117,7 @@ class RuleSetConfigurationViewController: FormViewController {
     func save() {
         do {
             let values = form.values()
-            guard let name = (values[kRuleSetFormName] as? String)?.stringByTrimmingCharactersInSet(CharacterSet.whitespaceCharacterSet()) , name.characters.count > 0 else {
+            guard let name = (values[kRuleSetFormName] as? String)?.trimmingCharacters(in: CharacterSet.whitespaces) , name.characters.count > 0 else {
                 throw "Name can't be empty".localized()
             }
             ruleSet.name = name

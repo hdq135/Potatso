@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		27AAAE281DA54433005F5A6A /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AAAE271DA54433005F5A6A /* ISO8601DateFormatter.m */; };
 		27E04B851D9FF92100517FE2 /* YAML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27E04B841D9FF92100517FE2 /* YAML.framework */; };
 		2B4A43FD1B86BED7249A12C1 /* Pods_PacketProcessor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395F19BC7544017BC54E1401 /* Pods_PacketProcessor.framework */; };
 		4AADC088D6DF8AD47906A6F6 /* Pods_Potatso.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98A0B6588D540150EF71B3 /* Pods_Potatso.framework */; };
@@ -336,6 +337,8 @@
 		0DCCCD643F9466D3514D2E71 /* Pods-PotatsoModel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PotatsoModel.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PotatsoModel/Pods-PotatsoModel.debug.xcconfig"; sourceTree = "<group>"; };
 		0ED3D811563276B1F17FE328 /* Pods_PacketTunnel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PacketTunnel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1553AA90B1C3F7756258FCF4 /* Pods_PotatsoModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PotatsoModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		27AAAE261DA54433005F5A6A /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISO8601DateFormatter.h; path = Library/ISO8601DF/ISO8601DateFormatter.h; sourceTree = SOURCE_ROOT; };
+		27AAAE271DA54433005F5A6A /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISO8601DateFormatter.m; path = Library/ISO8601DF/ISO8601DateFormatter.m; sourceTree = SOURCE_ROOT; };
 		27E04B841D9FF92100517FE2 /* YAML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YAML.framework; path = PotatsoLibrary/YAML.framework; sourceTree = "<group>"; };
 		2F6774098A94E2C84CBB3585 /* Pods-PotatsoLibraryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PotatsoLibraryTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PotatsoLibraryTests/Pods-PotatsoLibraryTests.release.xcconfig"; sourceTree = "<group>"; };
 		33D21BFFB7886210787FF7C0 /* Pods_TodayWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TodayWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1084,6 +1087,8 @@
 		9B0CFA0D1C1C0B1B007BD7C6 /* Potatso */ = {
 			isa = PBXGroup;
 			children = (
+				27AAAE261DA54433005F5A6A /* ISO8601DateFormatter.h */,
+				27AAAE271DA54433005F5A6A /* ISO8601DateFormatter.m */,
 				9BC8589F1C33B00200992032 /* Potatso-Bridge-Header.h */,
 				9B0CFA0E1C1C0B1B007BD7C6 /* AppDelegate.swift */,
 				9B1F745F1C2F84250028C1A6 /* AppInitializer.swift */,
@@ -2877,6 +2882,7 @@
 				9B5C00261CBFB35C008DDE7A /* ConfigGroupCell.swift in Sources */,
 				B8C256AE1D1A93DA0074D3B1 /* FlatButton.swift in Sources */,
 				9B8193ED1CBE4DCA00BE320D /* UrlHandler.swift in Sources */,
+				27AAAE281DA54433005F5A6A /* ISO8601DateFormatter.m in Sources */,
 				9B1F74761C3164AD0028C1A6 /* VPN.swift in Sources */,
 				B821B0F51D5335DA0061E7B9 /* FeedbackManager.swift in Sources */,
 				B8A09D7B1D51B9A900A9A989 /* AlertOperation.swift in Sources */,

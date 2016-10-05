@@ -5,7 +5,7 @@ import PSOperations
 /**
  Ensure the record zone exists before attempting to write or fetch from it.
  */
-class PrepareZoneOperation: Operation {
+class PrepareZoneOperation: PSOperations.Operation {
     
     let zoneID: CKRecordZoneID
     

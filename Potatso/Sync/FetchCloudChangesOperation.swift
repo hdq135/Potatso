@@ -12,12 +12,12 @@ struct FetchResults {
     }
 }
 
-class FetchCloudChangesOperation: Operation {
+class FetchCloudChangesOperation: PSOperations.Operation {
     
     let zoneID: CKRecordZoneID
     var changeToken: CKServerChangeToken?
     
-    let delayOperationQueue = OperationQueue()
+    let delayOperationQueue = PSOperations.OperationQueue()
     let maximumRetryAttempts: Int
     var retryAttempts: Int = 0
 

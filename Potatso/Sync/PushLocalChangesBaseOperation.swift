@@ -3,11 +3,11 @@ import RealmSwift
 import CloudKit
 import PSOperations
 
-class PushLocalChangesBaseOperation: Operation {
+class PushLocalChangesBaseOperation: PSOperations.Operation {
     
     let zoneID: CKRecordZoneID
 
-    let delayOperationQueue = OperationQueue()
+    let delayOperationQueue = PSOperations.OperationQueue()
     let maximumRetryAttempts: Int
     var retryAttempts: Int = 0
     var finishObserver: BlockObserver!
@@ -120,7 +120,7 @@ class PushLocalChangesBaseOperation: Operation {
         }
     }
 
-    func resolvePushConflictsAndRetry(_ savedRecords: [CKRecord]?, deletedRecordIDs: [CKRecordID]?, error: NSError, completionHandler: (NSError?) -> ()) {
+    func resolvePushConflictsAndRetry(_ savedRecords: [CKRecord]?, deletedRecordIDs: [CKRecordID]?, error: NSError, completionHandler: @escaping (NSError?) -> ()) {
         let adjustedRecords = resolveConflicts(error, completionHandler: completionHandler, resolver: overwriteFromClient)
         pushLocalRecords(adjustedRecords, recordIDsToDelete: deletedRecordIDs, completionHandler: completionHandler)
     }
