@@ -28,7 +28,7 @@ class ProxyConfigurationViewController: FormViewController {
     var upstreamProxy: Proxy
     let isEdit: Bool
     
-    override convenience init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override convenience init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.init()
     }
     
@@ -58,9 +58,9 @@ class ProxyConfigurationViewController: FormViewController {
         generateForm()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(save))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(save))
     }
     
     func generateForm() {
@@ -105,7 +105,7 @@ class ProxyConfigurationViewController: FormViewController {
                 $0.value = self.upstreamProxy.authscheme ?? $0.options[2]
                 $0.selectorTitle = "Choose encryption method".localized()
                 $0.hidden = Condition.Function([kProxyFormType]) { form in
-                    if let r1 : PushRow<ProxyType> = form.rowByTag(kProxyFormType), isSS = r1.value?.isShadowsocks {
+                    if let r1 : PushRow<ProxyType> = form.rowByTag(kProxyFormType), let isSS = r1.value?.isShadowsocks {
                         return !isSS
                     }
                     return false
@@ -174,7 +174,7 @@ class ProxyConfigurationViewController: FormViewController {
             guard let type = values[kProxyFormType] as? ProxyType else {
                 throw "You must choose a proxy type".localized()
             }
-            guard let name = (values[kProxyFormName] as? String)?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) where name.characters.count > 0 else {
+            guard let name = (values[kProxyFormName] as? String)?.stringByTrimmingCharactersInSet(CharacterSet.whitespaceCharacterSet()) , name.characters.count > 0 else {
                 throw "Name can't be empty".localized()
             }
             if !self.isEdit {
@@ -182,7 +182,7 @@ class ProxyConfigurationViewController: FormViewController {
                     throw "Name already exists".localized()
                 }
             }
-            guard let host = (values[kProxyFormHost] as? String)?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) where host.characters.count > 0 else {
+            guard let host = (values[kProxyFormHost] as? String)?.stringByTrimmingCharactersInSet(CharacterSet.whitespaceCharacterSet()) , host.characters.count > 0 else {
                 throw "Host can't be empty".localized()
             }
             guard let port = values[kProxyFormPort] as? Int else {
@@ -196,10 +196,10 @@ class ProxyConfigurationViewController: FormViewController {
             var password: String?
             switch type {
             case .Shadowsocks, .ShadowsocksR:
-                guard let encryption = values[kProxyFormEncryption] as? String where encryption.characters.count > 0 else {
+                guard let encryption = values[kProxyFormEncryption] as? String , encryption.characters.count > 0 else {
                     throw "You must choose a encryption method".localized()
                 }
-                guard let pass = values[kProxyFormPassword] as? String where pass.characters.count > 0 else {
+                guard let pass = values[kProxyFormPassword] as? String , pass.characters.count > 0 else {
                     throw "Password can't be empty".localized()
                 }
                 authscheme = encryption

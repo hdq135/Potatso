@@ -42,11 +42,11 @@ class ProxyRowCell: Cell<Proxy>, CellType {
         super.update()
         if let proxy = row.value {
             titleLabel.text = proxy.name
-            iconImageView.hidden = false
+            iconImageView.isHidden = false
             iconImageView.image = UIImage(named: "Shadowsocks")
         }else {
             titleLabel.text = "None".localized()
-            iconImageView.hidden = true
+            iconImageView.isHidden = true
         }
         if row.isDisabled {
             titleLabel.textColor = "5F5F5F".color
@@ -67,13 +67,13 @@ class ProxyRowCell: Cell<Proxy>, CellType {
 
     lazy var titleLabel: UILabel = {
         let v = UILabel()
-        v.font = UIFont.systemFontOfSize(17)
+        v.font = UIFont.systemFont(ofSize: 17)
         return v
     }()
 
     lazy var iconImageView: UIImageView = {
         let v = UIImageView()
-        v.contentMode = .ScaleAspectFill
+        v.contentMode = .scaleAspectFill
         return v
     }()
 

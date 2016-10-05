@@ -10,7 +10,7 @@ import Foundation
 
 class Alert: NSObject {
 
-    static func show(vc: UIViewController, title: String? = nil, message: String? = nil, confirmMessage: String = "OK".localized(), confirmCallback: (() -> Void)?, cancelMessage: String = "CANCEL".localized(), cancelCallback: (() -> Void)?) {
+    static func show(_ vc: UIViewController, title: String? = nil, message: String? = nil, confirmMessage: String = "OK".localized(), confirmCallback: (() -> Void)?, cancelMessage: String = "CANCEL".localized(), cancelCallback: (() -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: confirmMessage, style: .Default, handler: { (action) in
             confirmCallback?()
@@ -21,7 +21,7 @@ class Alert: NSObject {
         vc.presentViewController(alert, animated: true, completion: nil)
     }
     
-    static func show(vc: UIViewController, title: String? = nil, message: String? = nil, confirmCallback: (() -> Void)? = nil) {
+    static func show(_ vc: UIViewController, title: String? = nil, message: String? = nil, confirmCallback: (() -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: { (action) in
             confirmCallback?()

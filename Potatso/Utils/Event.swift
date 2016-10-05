@@ -17,6 +17,6 @@ enum Event: String {
 
 }
 
-func logEvent(event: Event, attributes: [String: AnyObject]?) {
+func logEvent(_ event: Event, attributes: [String: AnyObject]?) {
     Answers.logCustomEventWithName(event.rawValue, customAttributes: attributes)
 }

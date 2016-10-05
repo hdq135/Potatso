@@ -18,9 +18,9 @@ class ProxyListViewController: FormViewController {
 
     var proxies: [Proxy?] = []
     let allowNone: Bool
-    let chooseCallback: (Proxy? -> Void)?
+    let chooseCallback: ((Proxy?) -> Void)?
 
-    init(allowNone: Bool = false, chooseCallback: (Proxy? -> Void)? = nil) {
+    init(allowNone: Bool = false, chooseCallback: ((Proxy?) -> Void)? = nil) {
         self.chooseCallback = chooseCallback
         self.allowNone = allowNone
         super.init(style: .Plain)
@@ -30,10 +30,10 @@ class ProxyListViewController: FormViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "Proxy".localized()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(add))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         reloadData()
     }
 
@@ -74,24 +74,24 @@ class ProxyListViewController: FormViewController {
         tableView?.reloadData()
     }
 
-    func showProxyConfiguration(proxy: Proxy?) {
+    func showProxyConfiguration(_ proxy: Proxy?) {
         let vc = ProxyConfigurationViewController(upstreamProxy: proxy)
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        if allowNone && indexPath.row == 0 {
+    func tableView(_ tableView: UITableView, canEditRowAtIndexPath indexPath: IndexPath) -> Bool {
+        if allowNone && (indexPath as NSIndexPath).row == 0 {
             return false
         }
         return true
     }
 
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return .Delete
+    func tableView(_ tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+        return .delete
     }
 
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    func tableView(_ tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: IndexPath) {
+        if editingStyle == .delete {
             guard indexPath.row < proxies.count, let item = (form[indexPath] as? ProxyRow)?.value else {
                 return
             }

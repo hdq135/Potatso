@@ -36,18 +36,18 @@ class PushLocalChangesBaseOperation: Operation {
         }
     }
 
-    func pushRecords(completionHandler: (NSError?) -> ()) {
+    func pushRecords(_ completionHandler: (NSError?) -> ()) {
 
     }
 
-    func pushLocalRecords(recordsToSave: [CKRecord]?, recordIDsToDelete: [CKRecordID]?, completionHandler: (NSError?) -> ()) {
+    func pushLocalRecords(_ recordsToSave: [CKRecord]?, recordIDsToDelete: [CKRecordID]?, completionHandler: @escaping (NSError?) -> ()) {
         let modifyOperation = CKModifyRecordsOperation(recordsToSave: recordsToSave, recordIDsToDelete: recordIDsToDelete)
-        modifyOperation.savePolicy = .ChangedKeys
+        modifyOperation.savePolicy = .changedKeys
         modifyOperation.modifyRecordsCompletionBlock = {
             (savedRecords, deletedRecordIDs, nsError) -> Void in
             if let error = nsError {
                 DDLogError("\(self.name!) error: \(error)")
-                self.handleCloudKitPushError(savedRecords, deletedRecordIDs: deletedRecordIDs, error: error, completionHandler: completionHandler)
+                self.handleCloudKitPushError(savedRecords, deletedRecordIDs: deletedRecordIDs, error: error as NSError, completionHandler: completionHandler)
             } else {
                 do {
                     // Update local modified flag
@@ -64,7 +64,7 @@ class PushLocalChangesBaseOperation: Operation {
                 } catch let realmError as NSError {
                     self.finishWithError(realmError)
                 }
-                completionHandler(nsError)
+                completionHandler(nsError as NSError?)
             }
         }
         modifyOperation.start()
@@ -75,52 +75,52 @@ class PushLocalChangesBaseOperation: Operation {
     /**
      Implement custom logic here for handling CloudKit push errors.
      */
-    func handleCloudKitPushError(savedRecords: [CKRecord]?, deletedRecordIDs: [CKRecordID]?, error: NSError, completionHandler: (NSError?) -> ()) {
-        let ckErrorCode: CKErrorCode = CKErrorCode(rawValue: error.code)!
+    func handleCloudKitPushError(_ savedRecords: [CKRecord]?, deletedRecordIDs: [CKRecordID]?, error: NSError, completionHandler: @escaping (NSError?) -> ()) {
+        let ckErrorCode: CKError = CKError(_nsError: error.code)!
         switch ckErrorCode {
-        case .PartialFailure:
+        case .partialFailure:
             resolvePushConflictsAndRetry(savedRecords, deletedRecordIDs: deletedRecordIDs, error: error, completionHandler: completionHandler)
             
-        case .LimitExceeded:
+        case .limitExceeded:
             completionHandler(error)
 
-        case .ZoneBusy, .RequestRateLimited, .ServiceUnavailable, .NetworkFailure, .NetworkUnavailable, .ResultsTruncated:
+        case .zoneBusy, .requestRateLimited, .serviceUnavailable, .networkFailure, .networkUnavailable, .resultsTruncated:
             // Retry necessary
             retryPush(error, retryAfter: parseRetryTime(error), completionHandler: completionHandler)
             
-        case .BadDatabase, .InternalError, .BadContainer, .MissingEntitlement,
-             .ConstraintViolation, .IncompatibleVersion, .AssetFileNotFound,
-             .AssetFileModified, .InvalidArguments, .UnknownItem,
-             .PermissionFailure, .ServerRejectedRequest:
+        case .badDatabase, .internalError, .badContainer, .missingEntitlement,
+             .constraintViolation, .incompatibleVersion, .assetFileNotFound,
+             .assetFileModified, .invalidArguments, .unknownItem,
+             .permissionFailure, .serverRejectedRequest:
             // Developer issue
             completionHandler(error)
             
-        case .QuotaExceeded, .OperationCancelled:
+        case .quotaExceeded, .operationCancelled:
             // User issue. Provide alert.
             completionHandler(error)
             
-        case .BatchRequestFailed, .ServerRecordChanged:
+        case .batchRequestFailed, .serverRecordChanged:
             // Not possible for push operation (I think) only possible for
             // individual records within the userInfo dictionary of a PartialFailure
             completionHandler(error)
             
-        case .NotAuthenticated:
+        case .notAuthenticated:
             // Handled as condition of SyncOperation
             // TODO: add logic to retry entire operation
             completionHandler(error)
             
-        case .ZoneNotFound, .UserDeletedZone:
+        case .zoneNotFound, .userDeletedZone:
             // Handled in PrepareZoneOperation.
             // TODO: add logic to retry entire operation
             completionHandler(error)
             
-        case .ChangeTokenExpired:
+        case .changeTokenExpired:
             // TODO: Determine correct handling
             completionHandler(error)
         }
     }
 
-    func resolvePushConflictsAndRetry(savedRecords: [CKRecord]?, deletedRecordIDs: [CKRecordID]?, error: NSError, completionHandler: (NSError?) -> ()) {
+    func resolvePushConflictsAndRetry(_ savedRecords: [CKRecord]?, deletedRecordIDs: [CKRecordID]?, error: NSError, completionHandler: (NSError?) -> ()) {
         let adjustedRecords = resolveConflicts(error, completionHandler: completionHandler, resolver: overwriteFromClient)
         pushLocalRecords(adjustedRecords, recordIDsToDelete: deletedRecordIDs, completionHandler: completionHandler)
     }
@@ -128,7 +128,7 @@ class PushLocalChangesBaseOperation: Operation {
     // MARK: - Retry
     
     // Wait a default of 3 seconds
-    func parseRetryTime(error: NSError) -> Double {
+    func parseRetryTime(_ error: NSError) -> Double {
         var retrySecondsDouble: Double = 3
         if let retrySecondsString = error.userInfo[CKErrorRetryAfterKey] as? String {
             retrySecondsDouble = Double(retrySecondsString)!
@@ -139,7 +139,7 @@ class PushLocalChangesBaseOperation: Operation {
     /**
      After `maximumRetryAttempts` this function will return an error.
      */
-    func retryPush(error: NSError, retryAfter: Double, completionHandler: (NSError?) -> ()) {
+    func retryPush(_ error: NSError, retryAfter: Double, completionHandler: @escaping (NSError?) -> ()) {
         if retryAttempts < maximumRetryAttempts {
             retryAttempts += 1
             let delayOperation = DelayOperation(interval: retryAfter)

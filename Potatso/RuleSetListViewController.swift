@@ -18,12 +18,12 @@ private let kRuleSetCellIdentifier = "ruleset"
 class RuleSetListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var ruleSets: Results<RuleSet>
-    var chooseCallback: (RuleSet? -> Void)?
+    var chooseCallback: ((RuleSet?) -> Void)?
     // Observe Realm Notifications
     var token: RLMNotificationToken?
     var heightAtIndex: [Int: CGFloat] = [:]
 
-    init(chooseCallback: (RuleSet? -> Void)? = nil) {
+    init(chooseCallback: ((RuleSet?) -> Void)? = nil) {
         self.chooseCallback = chooseCallback
         self.ruleSets = DBUtils.allNotDeleted(RuleSet.self, sorted: "createAt")
         super.init(nibName: nil, bundle: nil)
@@ -33,10 +33,10 @@ class RuleSetListViewController: UIViewController, UITableViewDataSource, UITabl
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "Rule Set".localized()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(add))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         reloadData()
         token = ruleSets.addNotificationBlock { [unowned self] (changed) in
             switch changed {
@@ -56,7 +56,7 @@ class RuleSetListViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         token?.stop()
     }
@@ -71,27 +71,27 @@ class RuleSetListViewController: UIViewController, UITableViewDataSource, UITabl
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func showRuleSetConfiguration(ruleSet: RuleSet?) {
+    func showRuleSetConfiguration(_ ruleSet: RuleSet?) {
         let vc = RuleSetConfigurationViewController(ruleSet: ruleSet)
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return ruleSets.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(kRuleSetCellIdentifier, forIndexPath: indexPath) as! RuleSetCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: kRuleSetCellIdentifier, for: indexPath) as! RuleSetCell
         cell.setRuleSet(ruleSets[indexPath.row], showSubscribe: true)
         return cell
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        heightAtIndex[indexPath.row] = cell.frame.size.height
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        heightAtIndex[(indexPath as NSIndexPath).row] = cell.frame.size.height
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         let ruleSet = ruleSets[indexPath.row]
         if let cb = chooseCallback {
             cb(ruleSet)
@@ -101,24 +101,24 @@ class RuleSetListViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
 
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if let height = heightAtIndex[indexPath.row] {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let height = heightAtIndex[(indexPath as NSIndexPath).row] {
             return height
         } else {
             return UITableViewAutomaticDimension
         }
     }
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return chooseCallback == nil
     }
 
-    func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return .Delete
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .delete
     }
 
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
             let item: RuleSet
             guard indexPath.row < ruleSets.count else {
                 return
@@ -135,9 +135,9 @@ class RuleSetListViewController: UIViewController, UITableViewDataSource, UITabl
 
     override func loadView() {
         super.loadView()
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clear
         view.addSubview(tableView)
-        tableView.registerClass(RuleSetCell.self, forCellReuseIdentifier: kRuleSetCellIdentifier)
+        tableView.register(RuleSetCell.self, forCellReuseIdentifier: kRuleSetCellIdentifier)
 
         constrain(tableView, view) { tableView, view in
             tableView.edges == view.edges
@@ -145,12 +145,12 @@ class RuleSetListViewController: UIViewController, UITableViewDataSource, UITabl
     }
 
     lazy var tableView: UITableView = {
-        let v = UITableView(frame: CGRect.zero, style: .Plain)
+        let v = UITableView(frame: CGRect.zero, style: .plain)
         v.dataSource = self
         v.delegate = self
         v.tableFooterView = UIView()
         v.tableHeaderView = UIView()
-        v.separatorStyle = .SingleLine
+        v.separatorStyle = .singleLine
         v.rowHeight = UITableViewAutomaticDimension
         return v
     }()

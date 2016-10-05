@@ -16,17 +16,17 @@ class SyncVC: FormViewController {
         navigationItem.title = "Sync".localized()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserverForName(SyncManager.syncServiceChangedNotification, object: nil, queue: NSOperationQueue.mainQueue()) { [weak self] (noti) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: SyncManager.syncServiceChangedNotification), object: nil, queue: OperationQueue.main) { [weak self] (noti) in
             self?.generateForm()
         }
         generateForm()
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     func generateForm() {

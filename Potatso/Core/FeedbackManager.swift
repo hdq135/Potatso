@@ -14,7 +14,7 @@ class FeedbackManager {
     static let shared = FeedbackManager()
 
     func showFeedback(inVC vc: UIViewController? = nil) {
-        guard let currentVC = vc ?? UIApplication.sharedApplication().keyWindow?.rootViewController else {
+        guard let currentVC = vc ?? UIApplication.shared.keyWindow?.rootViewController else {
             return
         }
         let options = [
@@ -28,9 +28,9 @@ class FeedbackManager {
         } else if AppEnv.isAppStore {
             tags.append("store")
         }
-        NSNotificationCenter.defaultCenter().postNotificationName(LogglyLoggerForceUploadNotification, object: nil)
+        NotificationCenter.defaultCenter().postNotificationName(LogglyLoggerForceUploadNotification, object: nil)
         HelpshiftSupport.setUserIdentifier(User.currentUser.id)
-        HelpshiftSupport.setMetadataBlock { () -> [NSObject : AnyObject]! in
+        HelpshiftSupport.setMetadataBlock { () -> [AnyHashable: Any]! in
             return [
                 "Full Version": AppEnv.fullVersion,
                 "Default To Proxy": defaultToProxy ? "true": "false",

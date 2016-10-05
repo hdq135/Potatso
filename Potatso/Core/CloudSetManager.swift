@@ -14,7 +14,7 @@ class CloudSetManager {
 
     static let shared = CloudSetManager()
 
-    private init() {
+    fileprivate init() {
 
     }
 

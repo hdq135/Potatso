@@ -22,8 +22,8 @@ class RequestEventRow: Row<RequestEvent, RequestEventRowCell>, RowType {
 
 class RequestEventRowCell: Cell<RequestEvent>, CellType {
 
-    static let dateformatter: NSDateFormatter = {
-        let f = NSDateFormatter()
+    static let dateformatter: DateFormatter = {
+        let f = DateFormatter()
         f.dateFormat = "MM-dd hh:mm:ss.SSS"
         return f
     }()
@@ -37,9 +37,13 @@ class RequestEventRowCell: Cell<RequestEvent>, CellType {
 
     }
 
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func setup() {
         super.setup()
-        selectionStyle = .None
+        selectionStyle = .none
         preservesSuperviewLayoutMargins = false
         layoutMargins = UIEdgeInsetsZero
         separatorInset = UIEdgeInsetsZero
@@ -65,28 +69,28 @@ class RequestEventRowCell: Cell<RequestEvent>, CellType {
             return
         }
         titleLabel.text = event.stage.description
-        timeLabel.text = RequestEventRowCell.dateformatter.stringFromDate(NSDate(timeIntervalSince1970: event.timestamp))
+        timeLabel.text = RequestEventRowCell.dateformatter.stringFromDate(Date(timeIntervalSince1970: event.timestamp))
         contentLabel.text = event.contentDescription
     }
 
     lazy var titleLabel: UILabel = {
         let v = UILabel()
-        v.font = UIFont.systemFontOfSize(13)
+        v.font = UIFont.systemFont(ofSize: 13)
         v.textColor = Color.Gray
         return v
     }()
 
     lazy var timeLabel: UILabel = {
         let v = UILabel()
-        v.font = UIFont.systemFontOfSize(13)
+        v.font = UIFont.systemFont(ofSize: 13)
         v.textColor = Color.Gray
-        v.textAlignment = .Right
+        v.textAlignment = .right
         return v
     }()
 
     lazy var contentLabel: UILabel = {
         let v = UILabel()
-        v.font = UIFont.systemFontOfSize(16)
+        v.font = UIFont.systemFont(ofSize: 16)
         v.textColor = Color.Black
         v.numberOfLines = 0
         return v
