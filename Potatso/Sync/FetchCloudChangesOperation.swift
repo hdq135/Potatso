@@ -145,7 +145,8 @@ class FetchCloudChangesOperation: PSOperations.Operation {
      Implement custom logic here for handling CloudKit fetch errors.
      */
     func handleCloudKitFetchError(_ error: NSError, completionHandler: @escaping (NSError!) -> ()) {
-        let ckErrorCode: CKError = CKError(_nsError: error.code)!
+        
+        let ckErrorCode: CKError.Code = CKError.Code(rawValue: error.code)!
         
         switch ckErrorCode {
         case .zoneBusy, .requestRateLimited, .serviceUnavailable, .networkFailure, .networkUnavailable, .resultsTruncated:
@@ -194,6 +195,8 @@ class FetchCloudChangesOperation: PSOperations.Operation {
             // TODO: Determine correct handling
             // CK Docs: The previousServerChangeToken value is too old and the client must re-sync from scratch
             SyncManager.shared.sync(true)
+        default:
+            break;
         }
     }
 }

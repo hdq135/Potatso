@@ -17,8 +17,8 @@ class RuleSetCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         preservesSuperviewLayoutMargins = false
-        layoutMargins = UIEdgeInsetsZero
-        separatorInset = UIEdgeInsetsZero
+        layoutMargins = UIEdgeInsets.zero
+        separatorInset = UIEdgeInsets.zero
         contentView.addSubview(titleLabel)
         contentView.addSubview(countLabel)
         contentView.addSubview(leftHintView)
@@ -37,6 +37,7 @@ class RuleSetCell: UITableViewCell {
             titleLabel.top == contentView.top + 13
             countLabel.leading == titleLabel.trailing + 15
 
+            
             countLabel.trailing == contentView.trailing - 15
             countLabel.centerY == titleLabel.centerY
         }
@@ -77,10 +78,10 @@ class RuleSetCell: UITableViewCell {
         descLabel.numberOfLines = showFullDescription ? 0 : 2
         let bottomView: UIView
         if showSubscribe && ruleSet.isSubscribe {
-            subscribeFlagLabel.hidden = false
+            subscribeFlagLabel.isHidden = false
             bottomView = subscribeFlagLabel
         }else {
-            subscribeFlagLabel.hidden = true
+            subscribeFlagLabel.isHidden = true
             if ruleSet.desc.characters.count > 0 {
                 bottomView = descLabel
             }else{
@@ -155,8 +156,8 @@ class RuleSetCell: UITableViewCell {
 
     lazy var subscribeFlagLabel: PaddingLabel = {
         let v = PaddingLabel()
-        v.textColor = UIColor.whiteColor()
-        v.font = UIFont.systemFontOfSize(10)
+        v.textColor = UIColor.white
+        v.font = UIFont.systemFont(ofSize: 10)
         v.padding = UIEdgeInsetsMake(3, 10, 3, 10)
         v.layer.cornerRadius = 3
         v.layer.masksToBounds = true

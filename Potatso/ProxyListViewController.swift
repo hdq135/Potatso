@@ -23,7 +23,7 @@ class ProxyListViewController: FormViewController {
     init(allowNone: Bool = false, chooseCallback: ((Proxy?) -> Void)? = nil) {
         self.chooseCallback = chooseCallback
         self.allowNone = allowNone
-        super.init(style: .Plain)
+        super.init(style: .plain)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -45,7 +45,7 @@ class ProxyListViewController: FormViewController {
     func reloadData() {
         proxies = DBUtils.allNotDeleted(Proxy.self, sorted: "createAt").map({ $0 })
         if allowNone {
-            proxies.insert(nil, atIndex: 0)
+            proxies.insert(nil, at: 0)
         }
         form.delegate = nil
         form.removeAll()
@@ -55,7 +55,7 @@ class ProxyListViewController: FormViewController {
                 <<< ProxyRow () {
                     $0.value = proxy
                 }.cellSetup({ (cell, row) -> () in
-                    cell.selectionStyle = .None
+                    cell.selectionStyle = .none
                 }).onCellSelection({ [unowned self] (cell, row) in
                     cell.setSelected(false, animated: true)
                     let proxy = row.value
@@ -63,7 +63,7 @@ class ProxyListViewController: FormViewController {
                         cb(proxy)
                         self.close()
                     }else {
-                        if proxy?.type != .None {
+                        if proxy?.type != .none {
                             self.showProxyConfiguration(proxy)
                         }
                     }
@@ -97,7 +97,7 @@ class ProxyListViewController: FormViewController {
             }
             do {
                 try DBUtils.softDelete(item.uuid, type: Proxy.self)
-                proxies.removeAtIndex(indexPath.row)
+                proxies.remove(at: indexPath.row)
                 form[indexPath].hidden = true
                 form[indexPath].evaluateHidden()
             }catch {

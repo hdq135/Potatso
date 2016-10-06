@@ -40,15 +40,15 @@ class RuleSetListViewController: UIViewController, UITableViewDataSource, UITabl
         reloadData()
         token = ruleSets.addNotificationBlock { [unowned self] (changed) in
             switch changed {
-            case let .Update(_, deletions: deletions, insertions: insertions, modifications: modifications):
+            case let .update(_, deletions: deletions, insertions: insertions, modifications: modifications):
                 self.tableView.beginUpdates()
                 defer {
                     self.tableView.endUpdates()
                 }
-                self.tableView.deleteRowsAtIndexPaths(deletions.map({ NSIndexPath(forRow: $0, inSection: 0) }), withRowAnimation: .Automatic)
-                self.tableView.insertRowsAtIndexPaths(insertions.map({ NSIndexPath(forRow: $0, inSection: 0) }), withRowAnimation: .Automatic)
-                self.tableView.reloadRowsAtIndexPaths(modifications.map({ NSIndexPath(forRow: $0, inSection: 0) }), withRowAnimation: .None)
-            case let .Error(error):
+                self.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section:0) }), with: .automatic)
+                self.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section:0) }), with: .automatic)
+                self.tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section:0) }), with: .none)
+            case let .error(error):
                 error.log("RuleSetListVC realm token update error")
             default:
                 break

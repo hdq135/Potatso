@@ -11,22 +11,20 @@ import Aspects
 
 extension UIViewController: UIGestureRecognizerDelegate  {
     
+    static let justAOneTimeThing: () = {
+        UIViewController.aspectHook(#selector(viewDidLoad), swizzledSelector: #selector(ics_viewDidLoad))
+        UIViewController.aspectHook(#selector(viewWillAppear(_:)), swizzledSelector: #selector(ics_viewWillAppear(_:)))
+        UIViewController.aspectHook(#selector(viewDidAppear(_:)), swizzledSelector: #selector(ics_viewDidAppear(_:)))
+        UIViewController.aspectHook(#selector(viewWillDisappear(_:)), swizzledSelector: #selector(ics_viewWillDisappear(_:)))
+    }()
+    
     open override class func initialize() {
-        struct Static {
-            static var token: Int = 0
-        }
         
         // make sure this isn't a subclass
         if self !== UIViewController.self {
             return
         }
-        
-        dispatch_once(&Static.token) {
-            UIViewController.aspectHook(#selector(viewDidLoad), swizzledSelector: #selector(ics_viewDidLoad))
-            UIViewController.aspectHook(#selector(viewWillAppear(_:)), swizzledSelector: #selector(ics_viewWillAppear(_:)))
-            UIViewController.aspectHook(#selector(viewDidAppear(_:)), swizzledSelector: #selector(ics_viewDidAppear(_:)))
-            UIViewController.aspectHook(#selector(viewWillDisappear(_:)), swizzledSelector: #selector(ics_viewWillDisappear(_:)))
-        }
+        justAOneTimeThing
     }
     
     // MARK: - Method Swizzling
@@ -57,7 +55,7 @@ extension UIViewController: UIGestureRecognizerDelegate  {
     
     func showLeftBackButton(_ shouldShow: Bool) {
         if shouldShow {
-            let backItem = UIBarButtonItem(image: "Back".templateImage, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(pop))
+            let backItem = UIBarButtonItem(image: "Back".templateImage, style: UIBarButtonItemStyle.plain, target: self, action: #selector(pop))
             navigationItem.leftBarButtonItem = backItem
         }else{
             navigationItem.leftBarButtonItem = nil

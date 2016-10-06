@@ -80,7 +80,7 @@ class ConfigGroupChooseVC: UIViewController, UITableViewDataSource, UITableViewD
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         groups = DBUtils.allNotDeleted(ConfigurationGroup.self, sorted: "createAt")
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(onVPNStatusChanged), name: kProxyServiceVPNStatusNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onVPNStatusChanged), name: NSNotification.Name(rawValue: kProxyServiceVPNStatusNotification), object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -96,18 +96,21 @@ class ConfigGroupChooseVC: UIViewController, UITableViewDataSource, UITableViewD
         updateUI()
         token = groups.addNotificationBlock { [unowned self] (changed) in
             switch changed {
-            case let .Update(_, deletions: deletions, insertions: insertions, modifications: modifications):
+            case let .update(_, deletions: deletions, insertions: insertions, modifications: modifications):
                 self.tableView.beginUpdates()
                 defer {
                     self.tableView.endUpdates()
                     CurrentGroupManager.shared.setConfigGroupId(CurrentGroupManager.shared.group.uuid)
                 }
-                self.tableView.deleteRowsAtIndexPaths(deletions.map({ NSIndexPath(forRow: $0, inSection: 0) }), withRowAnimation: .Automatic)
-                self.tableView.insertRowsAtIndexPaths(insertions.map({ NSIndexPath(forRow: $0, inSection: 0) }), withRowAnimation: .Automatic)
-                self.tableView.reloadRowsAtIndexPaths(modifications.map({ NSIndexPath(forRow: $0, inSection: 0) }), withRowAnimation: .Automatic)
+                
+                
+                self.tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
+                self.tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: 0)}), with: .automatic)
+                self.tableView.reloadRows(at: modifications.map({IndexPath(row: $0, section: 0) }), with: .automatic)
             default:
                 break
             }
+            
         }
     }
 
@@ -188,7 +191,7 @@ class ConfigGroupChooseVC: UIViewController, UITableViewDataSource, UITableViewD
         let maxHeight = view.bounds.size.height * 0.7
         let height = min(tableRowHeight, maxHeight)
         let originY = view.bounds.size.height - height
-        tableView.scrollEnabled = (tableRowHeight > maxHeight)
+        tableView.isScrollEnabled = (tableRowHeight > maxHeight)
         tableView.frame = CGRect(x: 0, y: originY, width: view.bounds.size.width, height: height)
     }
 

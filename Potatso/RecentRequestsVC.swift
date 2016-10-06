@@ -28,10 +28,10 @@ class RecentRequestsVC: UIViewController, UITableViewDataSource, UITableViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Recent Requests".localized()
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(onVPNStatusChanged), name: kProxyServiceVPNStatusNotification, object: nil)
-        wormhole.listenForMessageWithIdentifier("tunnelConnectionRecords") { [unowned self](response) in
+        NotificationCenter.default.addObserver(self, selector: #selector(onVPNStatusChanged), name: NSNotification.Name(rawValue: kProxyServiceVPNStatusNotification), object: nil)
+        wormhole.listenForMessage(withIdentifier: "tunnelConnectionRecords") { [unowned self](response) in
             self.updateUI(response as? String)
-            Potatso.sharedUserDefaults().setObject(response as? String, forKey: kRecentRequestCachedIdentifier)
+            Potatso.sharedUserDefaults().set(response as? String, forKey: kRecentRequestCachedIdentifier)
             Potatso.sharedUserDefaults().synchronize()
             return
         }
@@ -48,7 +48,7 @@ class RecentRequestsVC: UIViewController, UITableViewDataSource, UITableViewDele
     }
     
     func refresh() {
-        wormhole.passMessageObject("", identifier: "getTunnelConnectionRecords")
+        wormhole.passMessageObject("" as NSCoding?, identifier: "getTunnelConnectionRecords")
     }
     
     func updateUI(_ requestString: String?) {
@@ -62,7 +62,7 @@ class RecentRequestsVC: UIViewController, UITableViewDataSource, UITableViewDele
     
     func onVPNStatusChanged() {
         let on = [VPNStatus.On, VPNStatus.Connecting].contains(Manager.sharedManager.vpnStatus)
-        hintLabel.hidden = on
+        hintLabel.isHidden = on
         if on {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refresh))
         }else {

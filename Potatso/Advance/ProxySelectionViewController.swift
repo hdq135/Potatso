@@ -40,14 +40,14 @@ class ProxySelectionViewController: FormViewController {
     func generateForm() {
         form.delegate = nil
         form.removeAll()
-        proxies = defaultRealm.objects(Proxy).sorted("createAt").map{ $0 }
+        proxies = defaultRealm.objects(Proxy.self).sorted(byProperty: "createAt").map{ $0 }
         form +++ Section("Proxy".localized())
         let sets = proxies.filter { $0.name != nil }
         for proxy in sets {
             form[0]
                 <<< CheckRow(proxy.name) {
                     $0.title = proxy.name
-                    $0.value = selectedProxies.containsObject(proxy)
+                    $0.value = selectedProxies.contains(proxy)
             }.onChange({ [unowned self] (row) in
                 self.selectProxy(row)
             })
@@ -68,7 +68,7 @@ class ProxySelectionViewController: FormViewController {
         let values = form.values()
         for proxy in proxies {
             if let checked = values[proxy.name] as? Bool , checked && proxy.name == selectedRow.title {
-                selectedProxies.addObject(proxy)
+                selectedProxies.add(proxy)
             }
         }
         self.callback?(selectedProxies.allObjects as! [Proxy])

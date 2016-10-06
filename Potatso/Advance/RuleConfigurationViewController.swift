@@ -64,14 +64,14 @@ class RuleConfigurationViewController: FormViewController {
     
     func generateForm() {
         form +++ Section()
-            <<< PushRow<RuleType>(kRuleFormType) {
+            <<< PushRow<PotatsoModel.RuleType>(kRuleFormType) {
                 $0.title = "Type".localized()
                 $0.selectorTitle = "Choose type of rule".localized()
                 $0.options = [RuleType.DomainSuffix, RuleType.DomainMatch, RuleType.Domain, RuleType.IPCIDR, RuleType.GeoIP]
                 $0.value = self.rule.type
                 $0.disabled = Condition(booleanLiteral: !editable)
                 }.cellSetup({ (cell, row) -> () in
-                    cell.accessoryType = .DisclosureIndicator
+                    cell.accessoryType = .disclosureIndicator
                 })
             <<< TextRow(kRuleFormValue) {
                 $0.title = "Value".localized()
@@ -79,8 +79,8 @@ class RuleConfigurationViewController: FormViewController {
                 $0.disabled = Condition(booleanLiteral: !editable)
                 }.cellSetup({ (cell, row) -> () in
                     cell.textField.keyboardType = .URL
-                    cell.textField.autocorrectionType = .No
-                    cell.textField.autocapitalizationType = .None
+                    cell.textField.autocorrectionType = .no
+                    cell.textField.autocapitalizationType = .none
                 })
             <<< PushRow<RuleAction>(kRuleFormAction) {
                 $0.title = "Action".localized()
@@ -89,17 +89,18 @@ class RuleConfigurationViewController: FormViewController {
                 $0.value = self.rule.action
                 $0.disabled = Condition(booleanLiteral: !editable)
                 }.cellSetup({ (cell, row) -> () in
-                    cell.accessoryType = .DisclosureIndicator
+                    cell.accessoryType = .disclosureIndicator
                 })
     }
+    
     
     func save() {
         do {
             let values = form.values()
-            guard let type = values[kRuleFormType] as? RuleType else {
+            guard let type = values[kRuleFormType] as? PotatsoModel.RuleType else {
                 throw "You must choose a type".localized()
             }
-            guard let value = (values[kRuleFormValue] as? String)?.stringByTrimmingCharactersInSet(CharacterSet.whitespaceCharacterSet()) , value.characters.count > 0 else {
+            guard let value = (values[kRuleFormValue] as? String)?.trimmingCharacters(in: CharacterSet.whitespaces) , value.characters.count > 0 else {
                 throw "Value can't be empty".localized()
             }
             guard let action = values[kRuleFormAction] as? RuleAction else {

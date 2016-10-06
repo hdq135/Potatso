@@ -46,9 +46,10 @@ class LogDetailViewController: UIViewController {
         guard fd > 0 else {
             return
         }
-        let queue = DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background)
-        source = DispatchSource.makeReadSource(fileDescriptor: fd, queue: queue) /*Migrator FIXME: Use DispatchSourceRead to avoid the cast*/ as! DispatchSource
-        guard let source = source else {
+        
+        let queue = DispatchQueue.global(qos: DispatchQoS.background.qosClass)
+        source = DispatchSource.makeReadSource(fileDescriptor: fd, queue: queue) /*Migrator FIXME: Use DispatchSourceRead to avoid the cast*/ as? DispatchSource
+        guard case let source as DispatchSourceRead = source else {
             return
         }
         source.setEventHandler{ [weak self] in
@@ -62,20 +63,20 @@ class LogDetailViewController: UIViewController {
     }
     
     func updateUI() {
-        guard let source = source else {
+        guard case let source as DispatchSourceRead = source else {
             return
         }
         let pending = source.data
         let size = Int(min(pending, 65535))
-        let buffer = UnsafeMutablePointer<UInt8>(allocatingCapacity: size)
+        let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: size)
         defer {
-            buffer.deallocateCapacity(size)
+            buffer.deallocate(capacity: size)
         }
         let readSize = Darwin.read(fd, buffer, size)
         data.append(buffer, length: readSize)
         if let content = String(data: data as Data, encoding: String.Encoding.utf8) {
             DispatchQueue.main.async(execute: { 
-                self.logView.text = self.logView.text.stringByAppendingString(content)
+                self.logView.text = self.logView.text.appendingFormat(content)
             })
             data = NSMutableData()
         }

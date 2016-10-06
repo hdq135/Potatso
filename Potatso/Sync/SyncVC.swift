@@ -64,7 +64,7 @@ class SyncVC: FormViewController {
         section
             <<< ButtonRow {
                 $0.title = SyncManager.shared.syncing ? "Syncing..." : "Sync Manually"
-                $0.hidden = Condition.Function([""]) { form in
+                $0.hidden = Condition.function([""]) { form in
                     return SyncManager.shared.currentSyncServiceType == .None
                 }
             }.onCellSelection({ [weak self] (cell, row) in

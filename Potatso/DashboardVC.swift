@@ -44,7 +44,7 @@ class DashboardVC: FormViewController {
     }
 
     func handleRefreshUI() {
-        Manager.sharedManager.loadProviderManager({ (manager) in
+        Manager.sharedManager.loadProviderManager(complete: { (manager) in
             DispatchQueue.main.async(execute: {
                 self.updateForm(manager)
             })
@@ -66,7 +66,7 @@ class DashboardVC: FormViewController {
             $0.title = "Start".localized()
             if Manager.sharedManager.vpnStatus == .On {
                 if let time = Settings.shared().startTime {
-                    $0.value = startTimeFormatter.stringFromDate(time)
+                    $0.value = startTimeFormatter.string(from: time)
                     return
                 }
             }
@@ -76,9 +76,8 @@ class DashboardVC: FormViewController {
             $0.title = "Up Time".localized()
             if Manager.sharedManager.vpnStatus == .On {
                 if let time = Settings.shared().startTime {
-                    let flags = NSCalendar.Unit(rawValue: UInt.max)
-                    let difference = NSCalendar.currentCalendar().components(flags, fromDate: time, toDate: NSDate(), options: NSCalendarOptions.MatchFirst)
-                    $0.value = durationFormatter.stringFromDateComponents(difference)
+                    let difference = Calendar.current.dateComponents([Calendar.Component.calendar], from: time, to: NSDate() as Date)
+                    $0.value = durationFormatter.string(from: difference)
                     return
                 }
             }

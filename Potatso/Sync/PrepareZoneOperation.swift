@@ -49,11 +49,11 @@ class PrepareZoneOperation: PSOperations.Operation {
                     // all user data from that zone to the cloud. To do so mark all
                     // live records as locally modified. Deleted records which have also
                     // been deleted locally will be gone forever.
+                    
                     potatsoDB.save(CKRecordZone(zoneID: zoneID), completionHandler: {
                         (recordZone, nsError) in
-                        // TODO: set a boolean NSUserDefault value equal to the
-                        // zoneName to keep track of zones this device has previously used
-                        completionHandler(nsError)
+                        completionHandler(nsError as NSError?)
+                        return
                     }) 
                 }
             } else {

@@ -10,18 +10,18 @@ import Foundation
 
 class PaddingLabel: UILabel {
 
-    var padding: UIEdgeInsets = UIEdgeInsetsZero
+    var padding: UIEdgeInsets = UIEdgeInsets.zero
 
-    override func drawTextInRect(_ rect: CGRect) {
+    override func drawText(in rect: CGRect) {
         let newRect = UIEdgeInsetsInsetRect(rect, padding)
-        super.drawTextInRect(newRect)
+        super.drawText(in: newRect)
     }
 
-    override func intrinsicContentSize() -> CGSize {
-        var s = super.intrinsicContentSize()
-        s.height += padding.top + padding.bottom
-        s.width += padding.left + padding.right
-        return s
-    }
+//    override func intrinsicContentSize() -> CGSize {
+//        var s = super.intrinsicContentSize
+//        s.height += padding.top + padding.bottom
+//        s.width += padding.left + padding.right
+//        return s
+//    }
 
 }

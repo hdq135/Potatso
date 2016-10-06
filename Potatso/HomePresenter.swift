@@ -28,7 +28,7 @@ class HomePresenter: NSObject {
 
     override init() {
         super.init()
-        NotificationCenter.defaultCenter.addObserver(self, selector: #selector(onVPNStatusChanged), name: NSNotification.Name(rawValue: NSNotification.Name(rawValue: kProxyServiceVPNStatusNotification)), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onVPNStatusChanged), name:NSNotification.Name(rawValue: kProxyServiceVPNStatusNotification), object: nil)
         CurrentGroupManager.shared.onChange = { group in
             self.delegate?.handleRefreshUI()
         }

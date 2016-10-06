@@ -11,22 +11,22 @@ import Foundation
 class Alert: NSObject {
 
     static func show(_ vc: UIViewController, title: String? = nil, message: String? = nil, confirmMessage: String = "OK".localized(), confirmCallback: (() -> Void)?, cancelMessage: String = "CANCEL".localized(), cancelCallback: (() -> Void)?) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: confirmMessage, style: .Default, handler: { (action) in
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: confirmMessage, style: .default, handler: { (action) in
             confirmCallback?()
         }))
-        alert.addAction(UIAlertAction(title: cancelMessage, style: .Cancel, handler: { (action) in
+        alert.addAction(UIAlertAction(title: cancelMessage, style: .cancel, handler: { (action) in
             cancelCallback?()
         }))
-        vc.presentViewController(alert, animated: true, completion: nil)
+        vc.present(alert, animated: true, completion: nil)
     }
     
     static func show(_ vc: UIViewController, title: String? = nil, message: String? = nil, confirmCallback: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "OK".localized(), style: .Default, handler: { (action) in
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK".localized(), style: .default, handler: { (action) in
             confirmCallback?()
         }))
-        vc.presentViewController(alert, animated: true, completion: nil)
+        vc.present(alert, animated: true, completion: nil)
     }
     
 }

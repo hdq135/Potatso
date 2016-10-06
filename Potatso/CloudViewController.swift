@@ -77,7 +77,7 @@ class CloudViewController: UIViewController, UITableViewDataSource, UITableViewD
         return ruleSets.count
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: kRuleSetCellIdentifier, for: indexPath as IndexPath) as! RuleSetCell
         cell.setRuleSet(ruleSets[indexPath.row])
         return cell
@@ -85,7 +85,7 @@ class CloudViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let vc = CloudDetailViewController(coder: ruleSets[indexPath.row])
+        let vc = CloudDetailViewController(ruleSet: ruleSets[indexPath.row])
         navigationController?.pushViewController(vc, animated: true)
     }
 

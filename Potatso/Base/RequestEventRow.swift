@@ -11,7 +11,7 @@ import PotatsoModel
 import Eureka
 import Cartography
 
-class RequestEventRow: Eureka.Row<RequestEventRowCell>, RowType {
+final class RequestEventRow: Eureka.Row<RequestEventRowCell>, Eureka.RowType {
 
     required init(tag: String?) {
         super.init(tag: tag)

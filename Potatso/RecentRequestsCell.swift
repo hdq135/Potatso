@@ -53,24 +53,24 @@ class RecentRequestsCell: UITableViewCell {
         urlLabel.text = request.url
         urlLabel.numberOfLines = 2
         if let e = request.events.first {
-            timeLabel.text = RecentRequestsCell.dateformatter.stringFromDate(Date(timeIntervalSince1970: e.timestamp))
+            timeLabel.text = RecentRequestsCell.dateformatter.string(from: Date(timeIntervalSince1970: e.timestamp))
         }else {
             timeLabel.text = nil
         }
         actionImageView.image = request.routing.image
         if let version = request.version {
             httpVersionLabel.text = version
-            httpVersionLabel.hidden = false
+            httpVersionLabel.isHidden = false
         }else {
-            httpVersionLabel.hidden = true
+            httpVersionLabel.isHidden = true
         }
         if let code = request.responseCode {
             statusLabel.text = "\(code.rawValue)"
             statusLabel.textColor = code.color
-            statusLabel.layer.borderColor = code.color.CGColor
-            statusLabel.hidden = false
+            statusLabel.layer.borderColor = code.color.cgColor
+            statusLabel.isHidden = false
         }else {
-            statusLabel.hidden = true
+            statusLabel.isHidden = true
         }
     }
     
@@ -140,10 +140,10 @@ class RecentRequestsCell: UITableViewCell {
     lazy var httpVersionLabel: PaddingLabel = {
         let v = PaddingLabel()
         v.textColor = "34495E".color
-        v.font = UIFont.systemFontOfSize(10)
+        v.font = UIFont.systemFont(ofSize: 10)
         v.layer.cornerRadius = 2
         v.layer.borderWidth = 0.5
-        v.layer.borderColor = "34495E".color.CGColor
+        v.layer.borderColor = "34495E".color.cgColor
         v.padding = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
         return v
     }()
@@ -151,10 +151,10 @@ class RecentRequestsCell: UITableViewCell {
     lazy var statusLabel: PaddingLabel = {
         let v = PaddingLabel()
         v.textColor = "34495E".color
-        v.font = UIFont.systemFontOfSize(10)
+        v.font = UIFont.systemFont(ofSize: 10)
         v.layer.cornerRadius = 2
         v.layer.borderWidth = 0.5
-        v.layer.borderColor = "34495E".color.CGColor
+        v.layer.borderColor = "34495E".color.cgColor
         v.padding = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
         return v
     }()

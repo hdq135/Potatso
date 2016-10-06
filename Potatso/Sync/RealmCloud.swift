@@ -66,7 +66,7 @@ public func resolveConflicts(_ error: NSError,
         as? [CKRecordID : NSError] {
         
         for (_, partialError) in errorDict {
-            let errorCode = CKError(_nsError: partialError.code)
+            let errorCode = CloudKit.CKError(_nsError: partialError).code
             if errorCode == .serverRecordChanged {
                 let userInfo = partialError.userInfo
                 
@@ -153,7 +153,7 @@ public func createAlertOperation(_ error: NSError) -> AlertOperation {
             "Error Code: RLMError.\(errorString) (\(error.localizedDescription))"
         
     case CKErrorDomain:
-        let ckErrorCode: CKError = CKError(_nsError: error.code)!
+        let ckErrorCode = CKError.Code(rawValue: error.code)!
         
         alert.title = "Cloud Error"
         alert.message =
@@ -170,7 +170,7 @@ public func createAlertOperation(_ error: NSError) -> AlertOperation {
 }
 
 // Extend `CKErrorCode` to provide more descriptive errors to user.
-extension CKError: CustomStringConvertible {
+extension CKError.Code: CustomStringConvertible {
     public var description: String {
         switch self {
         case .internalError: return "InternalError"
@@ -201,6 +201,7 @@ extension CKError: CustomStringConvertible {
         case .zoneNotFound: return "ZoneNotFound"
         case .limitExceeded: return "LimitExceeded"
         case .userDeletedZone: return "UserDeletedZone"
+        default: return "default"
         }
     }
 }

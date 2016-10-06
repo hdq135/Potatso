@@ -53,7 +53,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
         // Post an empty message so we could attach to packet tunnel process
         Manager.sharedManager.postMessage()
         handleRefreshUI()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: "List".templateImage, style: .Plain, target: presenter, action: #selector(HomePresenter.chooseConfigGroups))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: "List".templateImage, style: .plain, target: presenter, action: #selector(HomePresenter.chooseConfigGroups))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: presenter, action: #selector(HomePresenter.showAddConfigGroup))
     }
 
@@ -70,7 +70,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
     }
 
     func updateTitle() {
-        titleButton.setTitle(presenter.group.name, for: .Normal)
+        titleButton.setTitle(presenter.group.name, for: .normal)
         titleButton.sizeToFit()
     }
 
@@ -84,13 +84,13 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
     }
 
     func updateConnectButton() {
-        connectButton.enabled = [VPNStatus.On, VPNStatus.Off].contains(status)
+        connectButton.isEnabled = [VPNStatus.On, VPNStatus.Off].contains(status)
         connectButton.setTitleColor(UIColor.white, for: UIControlState())
         switch status {
         case .Connecting, .Disconnecting:
             connectButton.animating = true
         default:
-            connectButton.setTitle(status.hintDescription, for: .Normal)
+            connectButton.setTitle(status.hintDescription, for: .normal)
             connectButton.animating = false
         }
         connectButton.backgroundColor = status.color
@@ -104,8 +104,8 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
             proxySection <<< ProxyRow(kFormProxies) {
                 $0.value = proxy
             }.cellSetup({ (cell, row) -> () in
-                cell.accessoryType = .DisclosureIndicator
-                cell.selectionStyle = .Default
+                cell.accessoryType = .disclosureIndicator
+                cell.selectionStyle = .default
             }).onCellSelection({ [unowned self](cell, row) -> () in
                 cell.setSelected(false, animated: true)
                 self.presenter.chooseProxy()
@@ -126,7 +126,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
         proxySection <<< SwitchRow(kFormDefaultToProxy) {
             $0.title = "Default To Proxy".localized()
             $0.value = presenter.group.defaultToProxy
-            $0.hidden = Condition.Function([kFormProxies]) { [unowned self] form in
+            $0.hidden = Condition.function([kFormProxies]) { [unowned self] form in
                 return self.presenter.proxy == nil
             }
         }.onChange({ [unowned self] (row) in
@@ -167,7 +167,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
                         $0.value = String(format: "%d rule".localized(), count)
                     }
                 }.cellSetup({ (cell, row) -> () in
-                    cell.selectionStyle = .None
+                    cell.selectionStyle = .none
                 })
         }
         ruleSetSection <<< BaseButtonRow () {
@@ -207,7 +207,7 @@ class HomeVC: FormViewController, UINavigationControllerDelegate, HomePresenterP
         if editingStyle == .delete {
             do {
                 try defaultRealm.write {
-                    presenter.group.ruleSets.removeAtIndex(indexPath.row)
+                    presenter.group.ruleSets.remove(objectAtIndex: indexPath.row)
                 }
                 form[indexPath].hidden = true
                 form[indexPath].evaluateHidden()

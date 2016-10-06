@@ -85,7 +85,7 @@ class CloudDetailViewController: UIViewController, UITableViewDataSource, UITabl
             }
         }
         Alert.show(self, message: "Success".localized()) { [weak self] in
-            self?.navigationController?.popViewControllerAnimated(true)
+            self?.navigationController?.popViewController(animated: true)
         }
     }
 
@@ -107,7 +107,7 @@ class CloudDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell
         switch indexPath.section {
         case 0:
@@ -121,8 +121,8 @@ class CloudDetailViewController: UIViewController, UITableViewDataSource, UITabl
         }
         cell.selectionStyle = .none
         cell.preservesSuperviewLayoutMargins = false
-        cell.layoutMargins = UIEdgeInsetsZero
-        cell.separatorInset = UIEdgeInsetsZero
+        cell.layoutMargins = UIEdgeInsets.zero
+        cell.separatorInset = UIEdgeInsets.zero
         return cell
     }
 

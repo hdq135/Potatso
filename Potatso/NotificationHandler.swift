@@ -12,20 +12,21 @@ import CloudKit
 
 class NotificationHandler: NSObject, AppLifeCycleProtocol {
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) -> Bool {
+    private func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) -> Bool {
         configPush()
         if let launchOptions = launchOptions, let userInfo = launchOptions[UIApplicationLaunchOptionsKey.remoteNotification] as? [AnyHashable: Any], let origin = userInfo["origin"] as? String {
             if origin == "helpshift" {
                 if let rootVC = application.keyWindow?.rootViewController {
-                    HelpshiftCore.handleRemoteNotification(userInfo, withController: rootVC)
+                    HelpshiftCore.handleRemoteNotification(userInfo, with: rootVC)
                 }
+                
             }
         }
         return true
     }
 
     func configPush() {
-        let settings: UIUserNotificationSettings = UIUserNotificationSettings(forTypes: [.Badge, .Alert, .Sound], categories: nil)
+        let settings: UIUserNotificationSettings = UIUserNotificationSettings(types: [.badge, .alert, .sound], categories: nil)
         UIApplication.shared.registerUserNotificationSettings(settings)
         UIApplication.shared.registerForRemoteNotifications()
     }
@@ -39,12 +40,12 @@ class NotificationHandler: NSObject, AppLifeCycleProtocol {
         HelpshiftCore.registerDeviceToken(deviceToken)
     }
 
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    private func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
         if let origin = userInfo["origin"] as? String {
             if origin == "helpshift" {
                 DDLogInfo("received a helpshift notification")
                 if let rootVC = application.keyWindow?.rootViewController {
-                    HelpshiftCore.handleRemoteNotification(userInfo, withController: rootVC)
+                    HelpshiftCore.handleRemoteNotification(userInfo, with: rootVC)
                 }
                 completionHandler(.newData)
                 return

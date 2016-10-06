@@ -36,7 +36,7 @@ class PushLocalChangesBaseOperation: PSOperations.Operation {
         }
     }
 
-    func pushRecords(_ completionHandler: (NSError?) -> ()) {
+    func pushRecords(_ completionHandler:@escaping (NSError?) -> ()) {
 
     }
 
@@ -76,7 +76,7 @@ class PushLocalChangesBaseOperation: PSOperations.Operation {
      Implement custom logic here for handling CloudKit push errors.
      */
     func handleCloudKitPushError(_ savedRecords: [CKRecord]?, deletedRecordIDs: [CKRecordID]?, error: NSError, completionHandler: @escaping (NSError?) -> ()) {
-        let ckErrorCode: CKError = CKError(_nsError: error.code)!
+        let ckErrorCode: CKError.Code = CKError(_nsError: error).code
         switch ckErrorCode {
         case .partialFailure:
             resolvePushConflictsAndRetry(savedRecords, deletedRecordIDs: deletedRecordIDs, error: error, completionHandler: completionHandler)
@@ -117,6 +117,8 @@ class PushLocalChangesBaseOperation: PSOperations.Operation {
         case .changeTokenExpired:
             // TODO: Determine correct handling
             completionHandler(error)
+        default:
+            break;
         }
     }
 

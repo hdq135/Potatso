@@ -57,12 +57,12 @@ class RequestOverviewVC: FormViewController {
     }
 
     func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: IndexPath, withSender sender: AnyObject?) -> Bool {
-        return action == #selector(NSObject.copy(_:))
+        return action == #selector(copy(_:))
     }
 
     func tableView(_ tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: IndexPath, withSender sender: AnyObject?) {
         switch action {
-        case #selector(NSObject.copy(_:)):
+        case #selector(copy(_:)):
             guard let cell = tableView.cellForRow(at: indexPath) as? RequestEventRowCell else {
                 return
             }

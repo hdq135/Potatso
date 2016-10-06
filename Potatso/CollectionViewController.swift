@@ -39,11 +39,11 @@ class CollectionViewController: SegmentPageVC {
     func add() {
         switch segmentedControl.selectedSegmentIndex {
         case 0:
-            let vc = RuleSetConfigurationViewController(coder: nil)
-            navigationController?.pushViewController(vc, animated: true)
+            let vc = RuleSetConfigurationViewController(coder: NSCoder())
+            navigationController?.pushViewController(vc!, animated: true)
         case 1:
-            let vc = ProxyConfigurationViewController(coder: nil)
-            navigationController?.pushViewController(vc, animated: true)
+            let vc = ProxyConfigurationViewController(coder: NSCoder())
+            navigationController?.pushViewController(vc!, animated: true)
         default:
             break
         }

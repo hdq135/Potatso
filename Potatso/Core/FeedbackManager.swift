@@ -28,7 +28,7 @@ class FeedbackManager {
         } else if AppEnv.isAppStore {
             tags.append("store")
         }
-        NotificationCenter.defaultCenter().postNotificationName(LogglyLoggerForceUploadNotification, object: nil)
+//        NotificationCenter.default.post(name: Notification.Name(rawValue: LogglyLoggerForceUploadNotification), object: nil)
         HelpshiftSupport.setUserIdentifier(User.currentUser.id)
         HelpshiftSupport.setMetadataBlock { () -> [AnyHashable: Any]! in
             return [

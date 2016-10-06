@@ -15,13 +15,14 @@ import CallbackURLKit
 
 class UrlHandler: NSObject, AppLifeCycleProtocol {
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) -> Bool {
-        let manager = Manager.sharedInstance
-        manager.callbackURLScheme = Manager.URLSchemes?.first
+    private func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) -> Bool {
+        let manager = CallbackURLKit.Manager.shared
+        manager.callbackURLScheme = CallbackURLKit.Manager.urlSchemes?.first
         for action in [URLAction.ON, URLAction.OFF, URLAction.SWITCH] {
-            manager[action.rawValue] = { parameters, success, failure, cancel in
-                action.perform(nil, parameters: parameters) { error in
-                    Async.main(after: 1, block: {
+            
+             manager[action.rawValue]  =  { parameters, success , failure , cancel in
+                action.perform(nil, parameters: parameters, completion: { error in
+                    Async.main(after: 1, {
                         if let error = error {
                             failure(error as NSError)
                         }else {
@@ -29,13 +30,13 @@ class UrlHandler: NSObject, AppLifeCycleProtocol {
                         }
                     })
                     return
-                }
+                })
             }
         }
         return true
     }
     
-    func application(_ app: UIApplication, openURL url: URL, options: [String : AnyObject]) -> Bool {
+    private func application(_ app: UIApplication, openURL url: URL, options: [String : AnyObject]) -> Bool {
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         var parameters: Parameters = [:]
         components?.queryItems?.forEach {
@@ -88,7 +89,7 @@ enum URLAction: String {
             })
         case .XCALLBACK:
             if let url = url {
-                return Manager.sharedInstance.handleOpenURL(url)
+                return CallbackURLKit.Manager.shared.handleOpen(url: url)
             }
         }
         return true
@@ -96,7 +97,7 @@ enum URLAction: String {
 
     func autoClose(_ parameters: Parameters) {
         var autoclose = false
-        if let value = parameters["autoclose"] , value.lowercased == "true" || value.lowercased == "1" {
+        if let value = parameters["autoclose"] , value.lowercased() == "true" || value.lowercased() == "1" {
             autoclose = true
         }
         if autoclose {
