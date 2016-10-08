@@ -56,7 +56,7 @@ class CloudViewController: UIViewController, UITableViewDataSource, UITableViewD
                 }
                 let data = result.filter({ $0.name.characters.count > 0})
                 if loadMore {
-                    self.ruleSets.appendContentsOf(data)
+                    self.ruleSets.append(contentsOf: data)
                     if result.count < pageSize {
                         self.showTextHUD("No more data".localized(), dismissAfterDelay: 1.0)
                     }

@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		27AAAE281DA54433005F5A6A /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AAAE271DA54433005F5A6A /* ISO8601DateFormatter.m */; };
+		270BC0811DA8B9D90077C6C4 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 270BC0801DA8B9D90077C6C4 /* StoreKit.framework */; };
+		2711AA321DA791B50057EF82 /* YAML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2711AA311DA791B50057EF82 /* YAML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		27AAAE281DA54433005F5A6A /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AAAE271DA54433005F5A6A /* ISO8601DateFormatter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		27E04B851D9FF92100517FE2 /* YAML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27E04B841D9FF92100517FE2 /* YAML.framework */; };
 		2B4A43FD1B86BED7249A12C1 /* Pods_PacketProcessor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395F19BC7544017BC54E1401 /* Pods_PacketProcessor.framework */; };
 		4AADC088D6DF8AD47906A6F6 /* Pods_Potatso.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE98A0B6588D540150EF71B3 /* Pods_Potatso.framework */; };
@@ -182,7 +184,6 @@
 		B8822CD31D2B81C400AD252C /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8822CD11D2B81C400AD252C /* libcrypto.a */; };
 		B8822CD41D2B81C400AD252C /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8822CD21D2B81C400AD252C /* libssl.a */; };
 		B88559EB1D21319D00B1243E /* YAML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B88559EA1D21319D00B1243E /* YAML.framework */; };
-		B88559EC1D21319D00B1243E /* YAML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B88559EA1D21319D00B1243E /* YAML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B88559F01D21371A00B1243E /* PotatsoModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC6FFEA1CB28B4B00E5EA61 /* PotatsoModel.framework */; };
 		B88874491D18186100AEF002 /* ShadowPath.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B86B08E91D17F84900613014 /* ShadowPath.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B896A8401D548AAC009E4BF5 /* ICloudSetupOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B896A83F1D548AAC009E4BF5 /* ICloudSetupOperation.swift */; };
@@ -320,7 +321,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B88874491D18186100AEF002 /* ShadowPath.framework in Embed Frameworks */,
-				B88559EC1D21319D00B1243E /* YAML.framework in Embed Frameworks */,
+				2711AA321DA791B50057EF82 /* YAML.framework in Embed Frameworks */,
 				9BC6FFF21CB28B4B00E5EA61 /* PotatsoModel.framework in Embed Frameworks */,
 				9B9B15C51C21595B000B6541 /* PotatsoLibrary.framework in Embed Frameworks */,
 				9BC600251CB2921C00E5EA61 /* PotatsoBase.framework in Embed Frameworks */,
@@ -337,6 +338,8 @@
 		0DCCCD643F9466D3514D2E71 /* Pods-PotatsoModel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PotatsoModel.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PotatsoModel/Pods-PotatsoModel.debug.xcconfig"; sourceTree = "<group>"; };
 		0ED3D811563276B1F17FE328 /* Pods_PacketTunnel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PacketTunnel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1553AA90B1C3F7756258FCF4 /* Pods_PotatsoModel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PotatsoModel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		270BC0801DA8B9D90077C6C4 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		2711AA311DA791B50057EF82 /* YAML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = YAML.framework; sourceTree = "<group>"; };
 		27AAAE261DA54433005F5A6A /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ISO8601DateFormatter.h; path = Library/ISO8601DF/ISO8601DateFormatter.h; sourceTree = SOURCE_ROOT; };
 		27AAAE271DA54433005F5A6A /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ISO8601DateFormatter.m; path = Library/ISO8601DF/ISO8601DateFormatter.m; sourceTree = SOURCE_ROOT; };
 		27E04B841D9FF92100517FE2 /* YAML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YAML.framework; path = PotatsoLibrary/YAML.framework; sourceTree = "<group>"; };
@@ -351,7 +354,7 @@
 		9B07D6B01CB7A6A900182C1B /* PotatsoLibraryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PotatsoLibraryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B07D6B21CB7A6A900182C1B /* PotatsoLibraryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PotatsoLibraryTests.swift; sourceTree = "<group>"; };
 		9B07D6B41CB7A6A900182C1B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9B0CFA0B1C1C0B1B007BD7C6 /* Potatso.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Potatso.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B0CFA0B1C1C0B1B007BD7C6 /* qqvpn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = qqvpn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B0CFA0E1C1C0B1B007BD7C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B0CFA151C1C0B1B007BD7C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B0CFA181C1C0B1B007BD7C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -940,6 +943,7 @@
 				B86B08ED1D17FB9B00613014 /* ShadowPath.framework in Frameworks */,
 				9BC600241CB2921C00E5EA61 /* PotatsoBase.framework in Frameworks */,
 				9BDA62621CAE2576007F2581 /* PacketProcessor.framework in Frameworks */,
+				270BC0811DA8B9D90077C6C4 /* StoreKit.framework in Frameworks */,
 				9B9B15C41C21595B000B6541 /* PotatsoLibrary.framework in Frameworks */,
 				9BC6FFF11CB28B4B00E5EA61 /* PotatsoModel.framework in Frameworks */,
 				B88559EB1D21319D00B1243E /* YAML.framework in Frameworks */,
@@ -1071,7 +1075,7 @@
 		9B0CFA0C1C1C0B1B007BD7C6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9B0CFA0B1C1C0B1B007BD7C6 /* Potatso.app */,
+				9B0CFA0B1C1C0B1B007BD7C6 /* qqvpn.app */,
 				9B0CFA1F1C1C0B1B007BD7C6 /* PotatsoTests.xctest */,
 				9B8705FA1C1D788F00651424 /* PacketTunnel.appex */,
 				9B9B15BD1C21595B000B6541 /* PotatsoLibrary.framework */,
@@ -1243,6 +1247,7 @@
 		9B9B15BE1C21595B000B6541 /* PotatsoLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				2711AA311DA791B50057EF82 /* YAML.framework */,
 				9B9B15BF1C21595B000B6541 /* PotatsoLibrary.h */,
 				9BC215CB1CB5E584002AADD1 /* Manager.swift */,
 				9BF3034C1CCA20D80096588E /* Logging.swift */,
@@ -2052,6 +2057,7 @@
 		C8B2149E8757C44C469576D2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				270BC0801DA8B9D90077C6C4 /* StoreKit.framework */,
 				27E04B841D9FF92100517FE2 /* YAML.framework */,
 				B8D8CC0B1D508F7500CE6C0D /* CloudKit.framework */,
 				B8822CD11D2B81C400AD252C /* libcrypto.a */,
@@ -2135,9 +2141,9 @@
 			productReference = 9B07D6B01CB7A6A900182C1B /* PotatsoLibraryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		9B0CFA0A1C1C0B1A007BD7C6 /* Potatso */ = {
+		9B0CFA0A1C1C0B1A007BD7C6 /* qqvpn */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9B0CFA281C1C0B1B007BD7C6 /* Build configuration list for PBXNativeTarget "Potatso" */;
+			buildConfigurationList = 9B0CFA281C1C0B1B007BD7C6 /* Build configuration list for PBXNativeTarget "qqvpn" */;
 			buildPhases = (
 				660A045E7A787CC98079D221 /* [CP] Check Pods Manifest.lock */,
 				B8CF2F9A1D3DF6C7009C9FF3 /* Confidential */,
@@ -2147,10 +2153,9 @@
 				B830CC631D2CF55A00FA8E37 /* Custom Data */,
 				9B8706081C1D788F00651424 /* Embed App Extensions */,
 				9B9B15821C1ECADF000B6541 /* Embed Frameworks */,
-				9B9E946C1CBA6F0A003FBC47 /* Cartahge */,
 				9B9C520E1CA7A19E00681FE7 /* Fabric */,
-				1B2DF8F49115BB221538AE95 /* [CP] Embed Pods Frameworks */,
 				6ED2D57F5AAE2BE19FEB0F64 /* [CP] Copy Pods Resources */,
+				1B2DF8F49115BB221538AE95 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2162,9 +2167,9 @@
 				9BC600231CB2921C00E5EA61 /* PBXTargetDependency */,
 				9B8193BD1CBCFEE700BE320D /* PBXTargetDependency */,
 			);
-			name = Potatso;
+			name = qqvpn;
 			productName = Potatso;
-			productReference = 9B0CFA0B1C1C0B1B007BD7C6 /* Potatso.app */;
+			productReference = 9B0CFA0B1C1C0B1B007BD7C6 /* qqvpn.app */;
 			productType = "com.apple.product-type.application";
 		};
 		9B0CFA1E1C1C0B1B007BD7C6 /* PotatsoTests */ = {
@@ -2328,14 +2333,20 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
 							com.apple.InAppPurchase = {
-								enabled = 0;
+								enabled = 1;
 							};
 							com.apple.Keychain = {
 								enabled = 0;
 							};
 							com.apple.Push = {
 								enabled = 1;
+							};
+							com.apple.VPNLite = {
+								enabled = 0;
 							};
 							com.apple.iCloud = {
 								enabled = 1;
@@ -2356,6 +2367,9 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.GameCenter = {
+								enabled = 0;
+							};
 						};
 					};
 					9B8705F91C1D788F00651424 = {
@@ -2366,27 +2380,37 @@
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
+							com.apple.GameCenter = {
+								enabled = 0;
+							};
+							com.apple.VPNLite = {
+								enabled = 0;
+							};
 						};
 					};
 					9B9B15BC1C21595B000B6541 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = X9HYGP3TBF;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 					9BC6001C1CB2921C00E5EA61 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = X9HYGP3TBF;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 					9BC6FFE91CB28B4B00E5EA61 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = X9HYGP3TBF;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 					9BDA625A1CAE2576007F2581 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = X9HYGP3TBF;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -2409,7 +2433,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				9B0CFA0A1C1C0B1A007BD7C6 /* Potatso */,
+				9B0CFA0A1C1C0B1A007BD7C6 /* qqvpn */,
 				9B0CFA1E1C1C0B1B007BD7C6 /* PotatsoTests */,
 				9B8705F91C1D788F00651424 /* PacketTunnel */,
 				9B8193B11CBCFEE700BE320D /* TodayWidget */,
@@ -2692,21 +2716,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "file=\"${PROJECT_DIR}/Confidential/env.plist\"\nif [ -f $file ]\nthen\n    echo \"env.plist found.\"\n    FABRIC_SECRET=$(/usr/libexec/PlistBuddy -c \"Print :FabricSecret\" $file)\n    FABRIC_API_KEY=$(/usr/libexec/PlistBuddy -c \"Print :Fabric:APIKey\" \"${PROJECT_DIR}/Potatso/Info.plist\")\nelse\n    echo \"env.plist not found.\"\n    FABRIC_SECRET=\"fake secret\"\n    FABRIC_API_KEY=\"0000000000000000000000000000000000000000\"\nfi\necho $FABRIC_SECRET\necho $FABRIC_API_KEY\n\"${PODS_ROOT}/Fabric/run\" $FABRIC_API_KEY ${FABRIC_SECRET}";
-		};
-		9B9E946C1CBA6F0A003FBC47 /* Cartahge */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/YAML.framework",
-			);
-			name = Cartahge;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
 		9BC858AF1C34C5AA00992032 /* Framework Hack */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3082,7 +3091,7 @@
 		};
 		9B0CFA211C1C0B1B007BD7C6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9B0CFA0A1C1C0B1A007BD7C6 /* Potatso */;
+			target = 9B0CFA0A1C1C0B1A007BD7C6 /* qqvpn */;
 			targetProxy = 9B0CFA201C1C0B1B007BD7C6 /* PBXContainerItemProxy */;
 		};
 		9B8193BD1CBCFEE700BE320D /* PBXTargetDependency */ = {
@@ -3210,6 +3219,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -3256,6 +3266,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -3335,8 +3346,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Potatso/Potatso.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = X9HYGP3TBF;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3420,7 +3431,7 @@
 				INFOPLIST_FILE = TodayWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.TodayWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.qqvpn.TodayWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -3434,8 +3445,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_ENTITLEMENTS = TodayWidget/TodayWidget.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = X9HYGP3TBF;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3445,7 +3456,7 @@
 				INFOPLIST_FILE = TodayWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.TodayWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.qqvpn.TodayWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 3.0;
@@ -3488,7 +3499,7 @@
 					"$(PROJECT_DIR)/PacketTunnel/Shadowsocks/libsodium-ios/lib",
 					"$(PROJECT_DIR)/PacketTunnel",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.PacketTunnel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.qqvpn.PacketTunnel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -3501,8 +3512,8 @@
 			baseConfigurationReference = 4A6372CC72C2E4C886DDCE2C /* Pods-PacketTunnel.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = "PacketTunnel/Supporting Files/PacketTunnel.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = X9HYGP3TBF;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3530,7 +3541,7 @@
 					"$(PROJECT_DIR)/PacketTunnel/Shadowsocks/libsodium-ios/lib",
 					"$(PROJECT_DIR)/PacketTunnel",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.test.PacketTunnel;
+				PRODUCT_BUNDLE_IDENTIFIER = com.test.qqvpn.PacketTunnel;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -3545,7 +3556,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 121;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = X9HYGP3TBF;
@@ -3580,7 +3591,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 121;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = X9HYGP3TBF;
@@ -3614,7 +3625,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 121;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -3644,7 +3655,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 121;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = X9HYGP3TBF;
@@ -3673,7 +3684,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 121;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
@@ -3708,7 +3719,7 @@
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 121;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = X9HYGP3TBF;
@@ -3740,7 +3751,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 121;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -3783,7 +3794,7 @@
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 121;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = X9HYGP3TBF;
@@ -3838,7 +3849,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9B0CFA281C1C0B1B007BD7C6 /* Build configuration list for PBXNativeTarget "Potatso" */ = {
+		9B0CFA281C1C0B1B007BD7C6 /* Build configuration list for PBXNativeTarget "qqvpn" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9B0CFA291C1C0B1B007BD7C6 /* Debug */,

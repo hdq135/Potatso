@@ -58,7 +58,7 @@ class CloudDetailViewController: UIViewController, UITableViewDataSource, UITabl
                 }
                 self.ruleSet = result
                 self.tableView.reloadData()
-                self.subscribeButton.hidden = false
+                self.subscribeButton.isHidden = false
             }
         }
     }

@@ -35,19 +35,19 @@ struct API {
         }
     }
     
-    static func getRuleSets(_ page: Int = 1, count: Int = 20, callback: (Response<[RuleSet], NSError>) -> Void) {
+    static func getRuleSets(_ page: Int = 1, count: Int = 20, callback: @escaping (DataResponse<[RuleSet]>) -> Void) {
         DDLogVerbose("API.getRuleSets ===> page: \(page), count: \(count)")
-        Alamofire.request(.GET, Path.RuleSets.url, parameters: ["page": page, "count": count]).responseArray(completionHandler: callback)
+        Alamofire.request(Path.ruleSets.url, method:.get,  parameters: ["page": page, "count": count]).responseArray(completionHandler: callback)
     }
 
-    static func getRuleSetDetail(_ uuid: String, callback: (Response<RuleSet, NSError>) -> Void) {
+    static func getRuleSetDetail(_ uuid: String, callback: @escaping (DataResponse<RuleSet>) -> Void) {
         DDLogVerbose("API.getRuleSetDetail ===> uuid: \(uuid)")
-        Alamofire.request(.GET, Path.RuleSet(uuid).url).responseObject(completionHandler: callback)
+        Alamofire.request(Path.ruleSet(uuid).url).responseObject(completionHandler: callback)
     }
 
-    static func updateRuleSetListDetail(_ uuids: [String], callback: (Response<[RuleSet], NSError>) -> Void) {
+    static func updateRuleSetListDetail(_ uuids: [String], callback: @escaping (DataResponse<[RuleSet]>) -> Void) {
         DDLogVerbose("API.updateRuleSetListDetail ===> uuids: \(uuids)")
-        Alamofire.request(.POST, Path.RuleSetListDetail().url, parameters: ["uuids": uuids], encoding: .JSON).responseArray(completionHandler: callback)
+        Alamofire.request(Path.ruleSetListDetail().url, method:.post, parameters: ["uuids": uuids], encoding:JSONEncoding.default).responseArray(completionHandler: callback)
     }
 
 }
@@ -146,50 +146,57 @@ open class DateTransform : TransformType {
     }
 }
 
-extension Alamofire.Request {
+extension DataRequest {
+    enum BackendError: Error {
+        case network(error: Error) // Capture any underlying Error from the URLSession API
+        case dataSerialization(error: Error)
+        case jsonSerialization(error: Error)
+        case xmlSerialization(error: Error)
+        case objectSerialization(reason: String)
+    }
 
-    public static func ObjectMapperSerializer<T: Mappable>(_ keyPath: String?, mapToObject object: T? = nil) -> ResponseSerializer<T, NSError> {
-        return ResponseSerializer { request, response, data, error in
+    public static func ObjectMapperSerializer<T: Mappable>(_ keyPath: String?, mapToObject object: T? = nil) -> DataResponseSerializer<T> {
+        return DataResponseSerializer { request, response, data, error in
             DDLogVerbose("Alamofire response ===> request: \(request.debugDescription), response: \(response.debugDescription)")
             guard error == nil else {
-                logError(error!, request: request, response: response)
-                return .Failure(error!)
+                logError(error! as NSError, request: request as NSURLRequest?, response: response)
+                return .failure(error!)
             }
 
             guard let _ = data else {
                 let failureReason = "Data could not be serialized. Input data was nil."
-                let error = Error.errorWithCode(.DataSerializationFailed, failureReason: failureReason)
-                logError(error, request: request, response: response)
-                return .Failure(error)
+                let error = BackendError.objectSerialization(reason: failureReason)
+                logError(error as NSError, request: request as NSURLRequest?, response: response)
+                return .failure(error)
             }
-
-            let JSONResponseSerializer = Alamofire.Request.JSONResponseSerializer(options: .AllowFragments)
+            
+            let JSONResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
             let result = JSONResponseSerializer.serializeResponse(request, response, data, error)
-
-            if let errorMessage = result.value?.valueForKeyPath("error_message") as? String {
-                let error = Error.errorWithCode(.StatusCodeValidationFailed, failureReason: errorMessage)
-                logError(error, request: request, response: response)
-                return .Failure(error)
+            if let errorMessage = (result.value as AnyObject).value(forKeyPath:"error_message") as? String {
+                let error = BackendError.objectSerialization(reason: errorMessage)
+                logError(error as NSError, request: request as NSURLRequest?, response: response)
+                return .failure(error)
             }
+            
 
             var JSONToMap: AnyObject?
             if let keyPath = keyPath , keyPath.isEmpty == false {
-                JSONToMap = result.value?.valueForKeyPath(keyPath)
+                JSONToMap = (result.value as AnyObject).value(forKeyPath: keyPath) as AnyObject
             } else {
-                JSONToMap = result.value
+                JSONToMap = result.value as AnyObject?
             }
 
             if let object = object {
-                Mapper<T>().map(JSONToMap, toObject: object)
-                return .Success(object)
-            } else if let parsedObject = Mapper<T>().map(JSONToMap){
-                return .Success(parsedObject)
+                Mapper<T>().map(JSON: JSONToMap as! [String : Any], toObject: object)
+                return .success(object)
+            } else if let parsedObject = Mapper<T>().map(JSON:JSONToMap as! [String : Any]){
+                return .success(parsedObject)
             }
-
+            
             let failureReason = "ObjectMapper failed to serialize response"
-            let error = Error.errorWithCode(.DataSerializationFailed, failureReason: failureReason)
-            logError(error, request: request, response: response)
-            return .Failure(error)
+            let error = BackendError.objectSerialization(reason: failureReason)
+            logError(error as NSError, request: request as NSURLRequest?, response: response)
+            return .failure(error)
         }
     }
 
@@ -203,50 +210,59 @@ extension Alamofire.Request {
 
      - returns: The request.
      */
-
-    public func responseObject<T: Mappable>(queue: DispatchQueue? = nil, keyPath: String? = nil, mapToObject object: T? = nil, completionHandler: (Response<T, NSError>) -> Void) -> Self {
-        return response(queue: queue, responseSerializer: Alamofire.Request.ObjectMapperSerializer(keyPath, mapToObject: object), completionHandler: completionHandler)
+    public func responseObject<T: Mappable>(
+        queue: DispatchQueue? = nil,
+        keyPath: String? = nil,
+        mapToObject object: T? = nil,
+        completionHandler: @escaping (DataResponse<T>) -> Void)
+        -> Self
+    {
+        return response(queue: queue,
+                        responseSerializer: DataRequest.ObjectMapperSerializer(keyPath, mapToObject: object),
+                        completionHandler: completionHandler
+        )
     }
 
-    public static func ObjectMapperArraySerializer<T: Mappable>(_ keyPath: String?) -> ResponseSerializer<[T], NSError> {
-        return ResponseSerializer { request, response, data, error in
+    public static func ObjectMapperArraySerializer<T: Mappable>(_ keyPath: String?) -> DataResponseSerializer<[T]> {
+        return DataResponseSerializer { request, response, data, error in
             DDLogVerbose("Alamofire response ===> request: \(request.debugDescription), response: \(response.debugDescription)")
             guard error == nil else {
-                logError(error!, request: request, response: response)
-                return .Failure(error!)
+                logError(error! as NSError, request: request as NSURLRequest?, response: response)
+                return .failure(error!)
             }
 
             guard let _ = data else {
                 let failureReason = "Data could not be serialized. Input data was nil."
-                let error = Error.errorWithCode(.DataSerializationFailed, failureReason: failureReason)
-                logError(error, request: request, response: response)
-                return .Failure(error)
+                let error = BackendError.objectSerialization(reason: failureReason)
+                logError(error as NSError, request: request as NSURLRequest?, response: response)
+                return .failure(error)
             }
-
-            let JSONResponseSerializer = Alamofire.Request.JSONResponseSerializer(options: .AllowFragments)
+            
+            let JSONResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
             let result = JSONResponseSerializer.serializeResponse(request, response, data, error)
 
-            if let errorMessage = result.value?.valueForKeyPath("error_message") as? String {
-                let error = Error.errorWithCode(.StatusCodeValidationFailed, failureReason: errorMessage)
-                logError(error, request: request, response: response)
-                return .Failure(error)
+            if let errorMessage = (result.value as AnyObject).value(forKeyPath:"error_message") as? String {
+                let error = BackendError.objectSerialization(reason: errorMessage)
+                logError(error as NSError, request: request as NSURLRequest?, response: response)
+                return .failure(error)
             }
 
             let JSONToMap: AnyObject?
             if let keyPath = keyPath , keyPath.isEmpty == false {
-                JSONToMap = result.value?.valueForKeyPath(keyPath)
+                JSONToMap = (result.value as AnyObject).value(forKeyPath: keyPath) as AnyObject
             } else {
-                JSONToMap = result.value
+                JSONToMap = result.value as AnyObject?
             }
 
-            if let parsedObject = Mapper<T>().mapArray(JSONToMap){
-                return .Success(parsedObject)
+            if let parsedObject = Mapper<T>().mapArray(JSONArray: JSONToMap as! [[String : Any]]){
+                return .success(parsedObject)
+                
             }
 
             let failureReason = "ObjectMapper failed to serialize response."
-            let error = Error.errorWithCode(.DataSerializationFailed, failureReason: failureReason)
-            logError(error, request: request, response: response)
-            return .Failure(error)
+            let error = BackendError.objectSerialization(reason: failureReason)
+            logError(error as NSError, request: request as NSURLRequest?, response: response)
+            return .failure(error)
         }
     }
 
@@ -259,8 +275,18 @@ extension Alamofire.Request {
 
      - returns: The request.
      */
-    public func responseArray<T: Mappable>(queue: DispatchQueue? = nil, keyPath: String? = nil, completionHandler: (Response<[T], NSError>) -> Void) -> Self {
-        return response(queue: queue, responseSerializer: Alamofire.Request.ObjectMapperArraySerializer(keyPath), completionHandler: completionHandler)
+    public func responseArray<T: Mappable>(
+        queue: DispatchQueue? = nil,
+        keyPath: String? = nil,
+        completionHandler: @escaping (DataResponse<[T]>) -> Void)
+        -> Self
+    {
+        
+        return response(
+            queue: queue,
+            responseSerializer: DataRequest.ObjectMapperArraySerializer(keyPath),
+            completionHandler: completionHandler
+        )
     }
 
     fileprivate static func logError(_ error: NSError, request: NSURLRequest?, response: URLResponse?) {
