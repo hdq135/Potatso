@@ -240,12 +240,14 @@ extension DataRequest {
             
             let JSONResponseSerializer = DataRequest.jsonResponseSerializer(options: .allowFragments)
             let result = JSONResponseSerializer.serializeResponse(request, response, data, error)
-
-            if let errorMessage = (result.value as AnyObject).value(forKeyPath:"error_message") as? String {
-                let error = BackendError.objectSerialization(reason: errorMessage)
-                logError(error as NSError, request: request as NSURLRequest?, response: response)
-                return .failure(error)
-            }
+   
+            
+//            
+//            if let errorMessage = (result.value as AnyObject).value(forKeyPath:"error_message") as? String {
+//                let error = BackendError.objectSerialization(reason: errorMessage)
+//                logError(error as NSError, request: request as NSURLRequest?, response: response)
+//                return .failure(error)
+//            }
 
             let JSONToMap: AnyObject?
             if let keyPath = keyPath , keyPath.isEmpty == false {

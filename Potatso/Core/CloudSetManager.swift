@@ -22,8 +22,13 @@ class CloudSetManager {
         Async.background(after: 1.5) {
             let realm = try! Realm()
             let uuids = realm.objects(RuleSet.self).filter("isSubscribe = true").map({$0.uuid})
+            var us = [String]();
             
-            API.updateRuleSetListDetail(uuids as! [String]) { (response) in
+            for uuid in uuids {
+                us.append(uuid)
+            }
+            
+            API.updateRuleSetListDetail(us) { (response) in
                 if let sets = response.result.value {
                     do {
                         try RuleSet.addRemoteArray(sets)

@@ -12,7 +12,7 @@ import CloudKit
 
 class NotificationHandler: NSObject, AppLifeCycleProtocol {
 
-    private func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) -> Bool {
         configPush()
         if let launchOptions = launchOptions, let userInfo = launchOptions[UIApplicationLaunchOptionsKey.remoteNotification] as? [AnyHashable: Any], let origin = userInfo["origin"] as? String {
             if origin == "helpshift" {

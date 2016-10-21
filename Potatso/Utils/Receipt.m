@@ -16,7 +16,7 @@
 #import <StoreKit/StoreKit.h>
 #import <Crashlytics/Crashlytics.h>
 #import "Appirater.h"
-#import "qqvpn-Swift.h"
+#import "Potatso-Swift.h"
 
 NSString *kReceiptBundleIdentifier				= @"BundleIdentifier";
 NSString *kReceiptBundleIdentifierData			= @"BundleIdentifierData";

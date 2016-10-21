@@ -323,7 +323,7 @@ extension Manager {
         mainConf["global-mode"] = defaultToProxy as AnyObject?
 //        mainConf["debug"] = 1024+65536+1
 //        mainConf["debug"] = 131071
-        mainConf["debug"] = ((mainConf["debug"] as! Int) + 4096) as AnyObject
+        mainConf["debug"] = 4096 as AnyObject?
         mainConf["actionsfile"] = userActionUrl.path as AnyObject?
 
         let mainContent = mainConf.map { "\($0) \($1)"}.joined(separator: "\n")

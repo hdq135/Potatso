@@ -15,7 +15,7 @@ import CallbackURLKit
 
 class UrlHandler: NSObject, AppLifeCycleProtocol {
     
-    private func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [AnyHashable: Any]?) -> Bool {
         let manager = CallbackURLKit.Manager.shared
         manager.callbackURLScheme = CallbackURLKit.Manager.urlSchemes?.first
         for action in [URLAction.ON, URLAction.OFF, URLAction.SWITCH] {

@@ -9,7 +9,7 @@
 #import "QRCodeScannerVC.h"
 #import <AVFoundation/AVFoundation.h>
 #import "HMScanner.h"
-#import "qqvpn-Swift.h"
+#import "Potatso-Swift.h"
 
 #ifndef CDZWeakSelf
 #define CDZWeakSelf __weak __typeof__((__typeof__(self))self)
