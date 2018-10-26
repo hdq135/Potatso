@@ -1660,7 +1660,7 @@
 					};
 					B8DEFD7A1CE9C923003FC706 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = X9HYGP3TBF;
+						DevelopmentTeam = CATY6HDQZF;
 						LastSwiftMigration = 0800;
 					};
 				};
@@ -2001,7 +2001,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = X9HYGP3TBF;
+				DEVELOPMENT_TEAM = CATY6HDQZF;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -2039,7 +2039,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = X9HYGP3TBF;
+				DEVELOPMENT_TEAM = CATY6HDQZF;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";

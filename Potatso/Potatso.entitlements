@@ -20,7 +20,7 @@
 	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.test.vpn</string>
+		<string>group.hdq.ss</string>
 	</array>
 </dict>
 </plist>
